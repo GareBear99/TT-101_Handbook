@@ -1,2 +1,2 @@
 # TT-101_Handbook
-Continuity Guide
+A continuity handbook and technical notebook for preserving knowledge across time.
