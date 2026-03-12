@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>TT-366 — TT-101 Handbook</title>
+<link href="../assets/book.css" rel="stylesheet"/>
+<!-- CUSTOM_HANDBOOK -->
+<style>
+    .grid-wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+    .cw-grid{display:grid;grid-template-columns:repeat(15, 28px);grid-auto-rows:28px;gap:2px;padding:10px;border:1px solid rgba(255,255,255,0.12);border-radius:14px;background:rgba(255,255,255,0.03)}
+    .cell{position:relative}
+    .cell input{width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,0.10);background:rgba(0,0,0,0.35);color:#fff;text-align:center;font-weight:700;text-transform:uppercase;outline:none}
+    .cell.block{width:28px;height:28px;border-radius:6px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.05)}
+    .n{position:absolute;top:-2px;left:2px;font-size:9px;opacity:.8;pointer-events:none}
+    .panel{min-width:320px;flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:12px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    button{border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#fff;padding:8px 10px;cursor:pointer}
+    button:hover{background:rgba(255,255,255,0.10)}
+    code{background:rgba(0,0,0,0.35);padding:2px 6px;border-radius:8px}
+    .ok{color:#9effb0} .bad{color:#ff9ea0}
+    .clue{padding:8px;border-radius:12px;border:1px solid rgba(255,255,255,0.10);margin:8px 0;background:rgba(0,0,0,0.25)}
+    .clue b{display:inline-block;min-width:56px}
+    .tiny{opacity:.85;font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-366</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a href="./TT-364.html">← Prev</a>
+        <a href="./TT-365.html">Next →</a>
+      </div>
+
+      <div style="margin-top:12px; font-size:12px; opacity:.85">
+        Custom interactive segment (not paginated).
+      </div>
+    </aside>
+
+    <main class="page">
+      <div class="page-inner">
+        <div class="page">
+<header class="top">
+<div class="title">TT-366 — Binary Crossword Puzzle</div>
+<div class="sub">Clues are 8-bit ASCII binary. Fill the grid offline.</div>
+</header>
+<div class="grid-wrap">
+<div>
+<div aria-label="Crossword grid" class="cw-grid" id="grid"></div>
+<div class="row" style="margin-top:10px">
+<button id="checkBtn">Check</button>
+<button id="revealBtn">Reveal (training)</button>
+<button id="clearBtn">Clear</button>
+<span class="tiny" id="status"></span>
+</div>
+<div class="tiny" style="margin-top:8px">
+          Tip: Use <a href="./TT-365.html">TT-365 Decoder</a> if you want help decoding bytes.
+        </div>
+</div>
+<aside class="panel">
+<h2 style="margin:6px 0 10px 0">Clues</h2>
+<h3 style="margin:10px 0 6px 0">Across</h3>
+<div id="across"></div>
+<h3 style="margin:14px 0 6px 0">Down</h3>
+<div id="down"></div>
+<details style="margin-top:14px">
+<summary>What counts as “binary” here?</summary>
+<div class="tiny" style="margin-top:8px">
+            Each letter is a byte: <code>01000001</code> = ASCII <code>A</code>.
+            Clues show one byte per letter, separated by spaces.
+          </div>
+</details>
+</aside>
+</div>
+<hr class="sep"/>
+<section class="block">
+<h2>Why this belongs in TT-300</h2>
+<p class="tiny">
+        If your slate workflow ever requires manual reconstruction, the failure mode is rarely “no data” — it’s
+        “some bytes are known but you must interpret them correctly.” This puzzle trains byte-to-letter decoding
+        and pattern recognition without relying on external tooling.
+      </p>
+</section>
+<footer class="foot">TT-101 Handbook — TT-366</footer>
+</div><script>
+const PATTERN = [["S", "L", "A", "T", "E", "#", "H", "A", "S", "H", "#", "#", "#", "#", "#"], ["I", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"], ["G", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"], ["N", "#", "#", "#", "#", "#", "#", "A", "#", "#", "#", "#", "#", "#", "#"], ["A", "#", "#", "B", "I", "N", "A", "R", "Y", "#", "#", "#", "#", "#", "#"], ["L", "#", "#", "E", "#", "#", "#", "C", "#", "#", "#", "T", "#", "#", "#"], ["#", "#", "#", "A", "#", "#", "#", "H", "#", "#", "#", "I", "#", "#", "#"], ["#", "#", "#", "C", "O", "N", "T", "I", "N", "U", "U", "M", "#", "#", "#"], ["#", "#", "#", "O", "#", "#", "#", "V", "#", "#", "#", "E", "#", "#", "#"], ["#", "#", "#", "N", "#", "#", "#", "E", "#", "#", "#", "L", "#", "#", "#"], ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "I", "#", "#", "#"], ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "N", "#", "#", "#"], ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "E", "#", "#", "#"], ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"], ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"]];
+const CLUES = {"across": [{"num": 1, "answer": "SLATE", "bin": "01010011 01001100 01000001 01010100 01000101", "row": 0, "col": 0}, {"num": 2, "answer": "HASH", "bin": "01001000 01000001 01010011 01001000", "row": 0, "col": 6}, {"num": 3, "answer": "BINARY", "bin": "01000010 01001001 01001110 01000001 01010010 01011001", "row": 4, "col": 3}, {"num": 4, "answer": "CONTINUUM", "bin": "01000011 01001111 01001110 01010100 01001001 01001110 01010101 01010101 01001101", "row": 7, "col": 3}], "down": [{"num": 1, "answer": "SIGNAL", "bin": "01010011 01001001 01000111 01001110 01000001 01001100", "row": 0, "col": 0}, {"num": 5, "answer": "BEACON", "bin": "01000010 01000101 01000001 01000011 01001111 01001110", "row": 4, "col": 3}, {"num": 6, "answer": "ARCHIVE", "bin": "01000001 01010010 01000011 01001000 01001001 01010110 01000101", "row": 3, "col": 7}, {"num": 7, "answer": "TIMELINE", "bin": "01010100 01001001 01001101 01000101 01001100 01001001 01001110 01000101", "row": 5, "col": 11}]};
+
+// derive numbering (standard crossword starts)
+function computeNumbers(pattern){
+  const H=pattern.length, W=pattern[0].length;
+  const nums = Array.from({length:H}, ()=>Array(W).fill(0));
+  let n=1;
+  for(let r=0;r<H;r++){
+    for(let c=0;c<W;c++){
+      if(pattern[r][c]==='#') continue;
+      const startsAcross = (c===0 || pattern[r][c-1]==='#') && (c+1<W && pattern[r][c+1]!== '#');
+      const startsDown = (r===0 || pattern[r-1][c]==='#') && (r+1<H && pattern[r+1][c]!== '#');
+      if(startsAcross || startsDown){
+        nums[r][c]=n++;
+      }
+    }
+  }
+  return nums;
+}
+const NUMS = computeNumbers(PATTERN);
+
+const gridEl = document.getElementById('grid');
+const cells = []; // {r,c,inp,sol}
+for(let r=0;r<PATTERN.length;r++){
+  for(let c=0;c<PATTERN[0].length;c++){
+    const ch = PATTERN[r][c];
+    if(ch==='#'){
+      const d=document.createElement('div');
+      d.className='cell block';
+      gridEl.appendChild(d);
+      cells.push({r,c,block:true});
+      continue;
+    }
+    const wrap=document.createElement('div');
+    wrap.className='cell';
+    const num=NUMS[r][c];
+    if(num){
+      const s=document.createElement('div');
+      s.className='n';
+      s.textContent=String(num);
+      wrap.appendChild(s);
+    }
+    const input=document.createElement('input');
+    input.maxLength=1;
+    input.autocomplete='off';
+    input.inputMode='latin';
+    input.addEventListener('input', ()=>{
+      input.value = (input.value||'').toUpperCase().replace(/[^A-Z]/g,'');
+    });
+    wrap.appendChild(input);
+    gridEl.appendChild(wrap);
+    cells.push({r,c,block:false,input,sol:ch});
+  }
+}
+
+function renderClues(kind, targetId){
+  const host=document.getElementById(targetId);
+  host.innerHTML='';
+  for(const cl of CLUES[kind]){
+    const d=document.createElement('div');
+    d.className='clue';
+    d.innerHTML = `<div><b>${cl.num}.</b> <code>${cl.bin}</code></div>
+                   <div class="tiny">(${kind}) bytes for ${cl.answer.length} letters</div>
+                   <div class="tiny" style="margin-top:6px"><button data-reveal="${kind}:${cl.num}">Reveal ASCII</button>
+                   <span class="tiny" id="ascii-${kind}-${cl.num}"></span></div>`;
+    host.appendChild(d);
+  }
+}
+renderClues('across','across');
+renderClues('down','down');
+
+document.addEventListener('click', (e)=>{
+  const btn=e.target.closest('button[data-reveal]');
+  if(!btn) return;
+  const [k,n]=btn.dataset.reveal.split(':');
+  const cl = CLUES[k].find(x=>String(x.num)===String(n));
+  const el=document.getElementById(`ascii-${k}-${n}`);
+  if(el && cl) el.textContent = ` ASCII: "${cl.answer}"`;
+});
+
+function check(){
+  let total=0, ok=0;
+  for(const cell of cells){
+    if(cell.block) continue;
+    total++;
+    const v=(cell.input.value||'').toUpperCase();
+    if(v===cell.sol) ok++;
+  }
+  const st=document.getElementById('status');
+  if(ok===total){
+    st.innerHTML = `<span class="ok">Solved.</span> ${ok}/${total} correct.`;
+    try{ document.getElementById("journalPanel").style.display=""; }catch(e){}
+  } else {
+    st.innerHTML = `<span class="bad">In progress.</span> ${ok}/${total} correct.`;
+  }
+}
+
+function reveal(){
+  for(const cell of cells){
+    if(cell.block) continue;
+    cell.input.value = cell.sol;
+  }
+  check();
+}
+
+function clearAll(){
+  for(const cell of cells){
+    if(cell.block) continue;
+    cell.input.value = '';
+  }
+  document.getElementById('status').textContent='';
+}
+
+document.getElementById('checkBtn').addEventListener('click', check);
+document.getElementById('revealBtn').addEventListener('click', reveal);
+document.getElementById('clearBtn').addEventListener('click', clearAll);
+
+// Journal integration (TT-367)
+function isoNowZ(){
+  const d = new Date();
+  return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().replace(".000","").replace("Z","Z");
+}
+const jrAdd = document.getElementById("jrAdd");
+if (jrAdd){
+  jrAdd.addEventListener("click", async () => {
+    const status = document.getElementById("jrStatus");
+    status.textContent = "";
+    const entry = {
+      id: "TT366-" + Date.now().toString(36),
+      t_utc: isoNowZ(),
+      segment: "TT-366",
+      title: (document.getElementById("jrTitle")?.value || "TT-366 solved").trim(),
+      content: (document.getElementById("jrContent")?.value || "").trim(),
+      evidence: (document.getElementById("jrEvidence")?.value || "")
+        .split(",").map(s=>s.trim()).filter(Boolean)
+    };
+    try{
+      if (window.TTJournal && typeof window.TTJournal.add === "function"){
+        const tok = await window.TTJournal.add(entry);
+        status.textContent = "Saved ✅ token: " + tok.slice(0,12) + "…";
+      } else {
+          // fallback: write directly to the journal storage used by TT-367
+          const KEY = "TT_JOURNAL_ENTRIES_V1";
+          try{
+            const raw = localStorage.getItem(KEY);
+            const arr = raw ? JSON.parse(raw) : [];
+            arr.push(entry);
+            localStorage.setItem(KEY, JSON.stringify(arr));
+            status.textContent = "Saved locally ✅ (open TT-367 to view/tokenize).";
+          }catch(e){
+            status.textContent = "Local save failed: " + e.message;
+          }
+        }
+    }catch(e){
+      status.textContent = "Save failed: " + e.message;
+    }
+  });
+}
+
+</script> TT_JOURNAL_PROMPT <section class="journal-prompt" style="margin-top:24px;padding:16px;border:1px solid rgba(255,255,255,0.12);border-radius:12px;">
+<h2 style="margin:0 0 8px 0;">Archive Journal Line</h2>
+<p style="margin:0 0 12px 0;opacity:0.85;">Use this only for things you can establish <em>now</em> (what you did, what you verified, what artifact you produced). Keep it factual.</p>
+<label style="display:block;margin:0 0 6px 0;opacity:0.8;">Title</label>
+<input id="ttjp-title" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(0,0,0,0.25);color:#fff;" type="text" value="TT-366 — Binary Crossword: Training Proof"/>
+<label style="display:block;margin:12px 0 6px 0;opacity:0.8;">Entry</label>
+<textarea id="ttjp-body" rows="6" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(0,0,0,0.25);color:#fff;">Training completed:
+- Puzzle: Binary Crossword
+- Terms solved: (list)
+- Notes: (hard clues / decoding approach)
+</textarea>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center;">
+<button class="btn" id="ttjp-add" style="cursor:pointer;">Add to Journal</button>
+<a class="btn" href="./TT-367.html">Open Journal / Continuity Token</a>
+<span id="ttjp-status" style="opacity:0.8;"></span>
+</div>
+</section><script src="../assets/journal_client.js"></script><script>
+    (function(){
+      const seg = "TT-366";
+      const btn = document.getElementById('ttjp-add');
+      const status = document.getElementById('ttjp-status');
+      btn.addEventListener('click', async () => {
+        const title = document.getElementById('ttjp-title').value.trim() || seg + " entry";
+        const body = document.getElementById('ttjp-body').value.trim();
+        if(!body) { status.textContent = "Add a short factual line first."; return; }
+        try {
+          await window.TTJournal.addEntry({
+            segment: seg,
+            title,
+            body,
+            created_local: new Date().toISOString()
+          });
+          status.textContent = "Saved ✓";
+          setTimeout(()=>status.textContent="", 1800);
+        } catch(e) {
+          console.error(e);
+          status.textContent = "Save failed (see console).";
+        }
+      });
+    })();
+  </script>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>TT-365 — Continuum Binary Hangman</title>
+<link href="../assets/book.css" rel="stylesheet"/>
+<!-- CUSTOM_HANDBOOK -->
+<style>
+  .paper-scroll{max-width:980px;margin:0 auto}
+  .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:16px;padding:14px;margin:12px 0}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  input[type="text"], textarea{width:100%;max-width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.14);background:rgba(0,0,0,0.30);color:#fff}
+  textarea{min-height:110px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  .btn2{display:inline-block;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.06);color:#fff;text-decoration:none;cursor:pointer}
+  .btn2:hover{background:rgba(255,255,255,0.10)}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  .slots{font-size:28px;letter-spacing:4px}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);font-size:12px}
+  .bad{color:#ffb3b3}
+  .good{color:#b7ffcf}
+</style>
+</head>
+<body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-365</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btn-group">
+        <div class="btn-title">Paging</div>
+        <a class="btn" href="./TT-366.html">Prev</a>
+        <a class="btn" href="./TT-367.html">Next</a>
+      </div>
+
+      <div class="btn-group">
+        <div class="btn-title">DIY Games</div>
+        <a class="btn" href="./TT-364.html">Binary Atlas</a>
+        <a class="btn" href="./TT-366.html">Binary Crossword</a>
+        <a class="btn active" href="./TT-365.html">Continuum Hangman</a>
+      </div>
+
+      <div class="btn-group">
+        <div class="btn-title">Journal</div>
+        <a class="btn" href="./TT-367.html">Archive Journal</a>
+      </div>
+    </aside>
+
+    <main class="book-main">
+      <div class="paper-scroll">
+        <h1>TT-365 — Continuum Hangman (Binary Hints)</h1>
+        <p class="muted">DIY Game #3. This trains binary literacy + retrieval: you can reveal letter-by-letter as ASCII bytes. Target word is fixed: <b>Continuum</b>.</p>
+
+        <section class="card">
+          <h2>Game</h2>
+          <div class="row">
+            <div style="flex:1;min-width:240px">
+              <div class="pill">Word</div>
+              <div id="slots" class="slots mono" style="margin-top:8px">_ _ _ _ _ _ _ _ _</div>
+              <div class="muted" style="margin-top:8px">Wrong guesses: <span id="wrong" class="bad mono">—</span> &nbsp; | &nbsp; Remaining: <span id="remain" class="mono">7</span></div>
+            </div>
+            <div style="flex:1;min-width:240px">
+              <div class="pill">Guess</div>
+              <div class="row" style="margin-top:8px">
+                <input id="guess" type="text" maxlength="1" placeholder="Type a letter (A–Z)"/>
+                <button class="btn2" id="btnGuess">Guess</button>
+              </div>
+              <div class="row">
+                <button class="btn2" id="btnHint">Reveal binary hint</button>
+                <button class="btn2" id="btnReset">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <details style="margin-top:12px">
+            <summary>How hints work in this system</summary>
+            <p class="muted">Hints reveal <b>one unrevealed letter</b> as an ASCII byte (binary + hex). This matches how QR-slate blocks are handled (byte-first recoverability). No spoilers beyond a single letter per hint.</p>
+          </details>
+
+          <div class="card">
+            <div class="pill">Hint output</div>
+            <div id="hintOut" class="mono" style="margin-top:8px;white-space:pre-wrap">—</div>
+          </div>
+        </section>
+
+        <section class="card" id="journalBox">
+          <h2>Archive Journal Line</h2>
+          <p class="muted">Record what you established now: completion + number of hints used + wrong guesses (training outcome).</p>
+          <div class="row">
+            <input id="jTitle" type="text" value="TT-365 — Continuum Hangman completed"/>
+          </div>
+          <div class="row">
+            <textarea id="jBody" placeholder="Results will auto-fill on win. You can add notes."></textarea>
+          </div>
+          <div class="row">
+            <button class="btn2" id="addJournal">Add to Journal</button>
+            <a class="btn2" href="./TT-367.html">Open Journal</a>
+          </div>
+          <div id="jStatus" class="muted" style="margin-top:8px"></div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+<script>
+(() => {
+  const KEY = "TT_JOURNAL_ENTRIES_V1";
+  const WORD = "CONTINUUM"; // fixed
+  let revealed = Array.from({length: WORD.length}, _=>false);
+  let wrong = [];
+  let remaining = 7;
+  let hintsUsed = 0;
+  let gameOver = false;
+
+  const CTRL = {
+    0:"NUL",1:"SOH",2:"STX",3:"ETX",4:"EOT",5:"ENQ",6:"ACK",7:"BEL",8:"BS",9:"TAB",10:"LF",11:"VT",12:"FF",13:"CR",14:"SO",15:"SI",
+    16:"DLE",17:"DC1",18:"DC2",19:"DC3",20:"DC4",21:"NAK",22:"SYN",23:"ETB",24:"CAN",25:"EM",26:"SUB",27:"ESC",28:"FS",29:"GS",30:"RS",31:"US",
+    127:"DEL"
+  };
+
+  function pad(n,w){n=String(n);return n.length>=w?n:"0".repeat(w-n.length)+n;}
+  function b8(n){return pad(n.toString(2),8);}
+  function hex2(n){return pad(n.toString(16).toUpperCase(),2);}
+  function render(){
+    const s = WORD.split("").map((ch,i)=>revealed[i]?ch:"_").join(" ");
+    document.getElementById("slots").textContent = s;
+    document.getElementById("wrong").textContent = wrong.length?wrong.join(" "):"—";
+    document.getElementById("remain").textContent = remaining;
+  }
+  function win(){
+    return revealed.every(Boolean);
+  }
+  function normalizeGuess(g){
+    return (g||"").trim().toUpperCase().replace(/[^A-Z]/g,"");
+  }
+
+  function applyGuess(){
+    if(gameOver) return;
+    const input = document.getElementById("guess");
+    const g = normalizeGuess(input.value);
+    input.value="";
+    if(!g) return;
+    if(revealed.includes(true) && WORD.includes(g) && revealed[WORD.indexOf(g)]===true){
+      // allow repeats but do nothing
+    }
+    if(wrong.includes(g)) return;
+
+    if(WORD.includes(g)){
+      WORD.split("").forEach((ch,i)=>{ if(ch===g) revealed[i]=true; });
+    } else {
+      wrong.push(g);
+      remaining = Math.max(0, remaining-1);
+    }
+
+    render();
+    if(win()){
+      gameOver = true;
+      const msg = `WIN — CONTINUUM\nwrong=${wrong.length} (${wrong.join(" ")||"none"})\nhintsUsed=${hintsUsed}\n`;
+      document.getElementById("hintOut").textContent = msg;
+      document.getElementById("jBody").value = 
+`Completed Continuum Hangman.
+- wrong guesses: ${wrong.length} (${wrong.join(" ")||"none"})
+- hints used: ${hintsUsed}
+- established: binary-letter hint decoding practice (ASCII byte-level).`;
+    } else if(remaining===0){
+      gameOver = true;
+      document.getElementById("hintOut").textContent = `LOSS — word was CONTINUUM\n`;
+      document.getElementById("jBody").value =
+`Attempted Continuum Hangman (not completed).
+- wrong guesses: ${wrong.length} (${wrong.join(" ")||"none"})
+- hints used: ${hintsUsed}
+Notes:`;
+    }
+  }
+
+  function revealHint(){
+    if(gameOver) return;
+    // pick first unrevealed letter position
+    const idx = revealed.findIndex(v=>!v);
+    if(idx<0) return;
+    revealed[idx]=true;
+    hintsUsed += 1;
+
+    const ch = WORD[idx];
+    const code = ch.charCodeAt(0); // ASCII
+    const hint = `Hint ${hintsUsed}: position=${idx+1}/${WORD.length}\nletter=${ch}\nASCII dec=${code}\nhex=0x${hex2(code)}\nbin=${b8(code)}\n`;
+    document.getElementById("hintOut").textContent = hint;
+
+    render();
+    if(win()){
+      applyGuess(); // triggers win state fill
+    }
+  }
+
+  function reset(){
+    revealed = Array.from({length: WORD.length}, _=>false);
+    wrong = [];
+    remaining = 7;
+    hintsUsed = 0;
+    gameOver = false;
+    document.getElementById("hintOut").textContent = "—";
+    document.getElementById("jBody").value = "";
+    render();
+  }
+
+  function loadEntries(){
+    try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; }
+  }
+  function saveEntries(entries){
+    localStorage.setItem(KEY, JSON.stringify(entries));
+  }
+
+  document.getElementById("btnGuess").addEventListener("click", applyGuess);
+  document.getElementById("guess").addEventListener("keydown", (e)=>{ if(e.key==="Enter") applyGuess(); });
+  document.getElementById("btnHint").addEventListener("click", revealHint);
+  document.getElementById("btnReset").addEventListener("click", reset);
+
+  document.getElementById("addJournal").addEventListener("click", ()=>{
+    const title = (document.getElementById("jTitle").value || "").trim();
+    const body = (document.getElementById("jBody").value || "").trim();
+    if(!title || !body){
+      document.getElementById("jStatus").textContent = "Add a title + at least one factual line (auto-fills on win).";
+      return;
+    }
+    const entries = loadEntries();
+    entries.push({
+      id: "TT-365|" + Date.now(),
+      ts_local: new Date().toISOString(),
+      segment: "TT-365",
+      title,
+      body
+    });
+    saveEntries(entries);
+    document.getElementById("jStatus").textContent = "Saved to journal. Open TT-367 to view token.";
+  });
+
+  reset();
+})();
+</script>
+</body>
+</html>

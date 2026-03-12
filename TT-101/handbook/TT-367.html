@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>TT-367 — Archive Journal</title>
+<link href="../assets/book.css" rel="stylesheet"/>
+<!-- CUSTOM_HANDBOOK -->
+<style>
+    .card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:14px;margin:12px 0}
+    textarea,input{width:100%;box-sizing:border-box;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.18);border-radius:10px;color:#fff;padding:10px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .row > *{flex:1 1 220px}
+    .btn{display:inline-block;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;cursor:pointer}
+    .btn:hover{background:rgba(255,255,255,0.10)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .small{opacity:0.85;font-size:0.95em}
+    .ok{color:#7CFCB3}
+    .bad{color:#ff8686}
+  </style>
+</head>
+<body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-367</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a href="./TT-341.html">← Prev</a>
+        <a href="./TT-368.html">Next →</a>
+      </div>
+
+      <div style="margin-top:12px; font-size:12px; opacity:.85">
+        Custom interactive segment (not paginated).
+      </div>
+    </aside>
+
+    <main class="page">
+      <div class="page-inner">
+        <main class="page">
+<header class="card">
+<h1>TT-367 — Archive Journal &amp; Continuity Token</h1>
+<p class="small">
+        This page collects <b>journal lines</b> generated across handbook segments (e.g., TT-365 / TT-366),
+        and produces a deterministic <b>continuity token</b> (hash chain).
+      </p>
+<p class="small mono" id="status"></p>
+</header>
+<section class="card">
+<h2>Add a Journal Line</h2>
+<div class="row">
+<div>
+<label>Segment</label>
+<input id="seg" value="TT-000"/>
+</div>
+<div>
+<label>UTC Time</label>
+<input class="mono" id="tutc" placeholder="2026-03-05T00:00:00Z"/>
+</div>
+</div>
+<div class="row">
+<div>
+<label>Title</label>
+<input id="title" placeholder="What happened"/>
+</div>
+<div>
+<label>Evidence (comma-separated hashes/filenames)</label>
+<input class="mono" id="evidence" placeholder="sha256:..., photo:..., slate:..."/>
+</div>
+</div>
+<label>Content (short, factual)</label>
+<textarea id="content" placeholder="Record what you can verify now." rows="4"></textarea>
+<div class="row" style="margin-top:10px">
+<button class="btn" id="addBtn">Add Entry</button>
+<button class="btn" id="clearBtn">Clear Local Journal</button>
+</div>
+</section>
+<section class="card">
+<h2>Entries</h2>
+<div id="entries"></div>
+</section>
+<section class="card">
+<h2>Continuity Token</h2>
+<p class="small">Final token represents the entire journal history in this browser profile.</p>
+<div class="mono" id="tokenBox" style="word-break:break-all"></div>
+<div class="row" style="margin-top:10px">
+<button class="btn" id="exportBtn">Export Journal JSON</button>
+<button class="btn" id="importBtn">Import Journal JSON</button>
+</div>
+<textarea class="mono" id="io" placeholder="Paste export here to import, or copy export out." rows="6"></textarea>
+</section>
+<section class="card">
+<h2>Meaningful recordings (now)</h2>
+<ul>
+<li><b>Decoding practice results</b> (TT-365 / TT-366): what you decoded, any errors encountered.</li>
+<li><b>Artifact creation</b>: slate set built, QR ECC level, chunk size, manifest hash, photos.</li>
+<li><b>Release linkage</b>: repo version, release statement hash, manifest SHA.</li>
+<li><b>Beacon registration</b>: beacon id, pivot window, observation window (hypothesis-only).</li>
+</ul>
+</section>
+</main><script>
+(() => {
+  const KEY = "TT_JOURNAL_ENTRIES_V1";
+  const GENESIS = "TT32|2026-03-05|GENESIS";
+
+  function isoNowZ(){
+    const d = new Date();
+    return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().replace(".000","").replace("Z","Z");
+  }
+
+  function load(){
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch(e) { return []; }
+  }
+  function save(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
+
+  function normStr(s) {
+    return (s ?? "").toString().replace(/\r\n/g,"\n").trim();
+  }
+
+  function canonicalEntry(entry){
+    const ev = Array.isArray(entry.evidence) ? entry.evidence : [];
+    return {
+      t_utc: normStr(entry.t_utc),
+      segment: normStr(entry.segment),
+      title: normStr(entry.title),
+      content: normStr(entry.content),
+      evidence: ev.map(normStr)
+    };
+  }
+
+  function canonicalJson(obj){
+    // keys are already ordered by construction
+    return JSON.stringify(obj);
+  }
+
+  async function sha256Hex(str) {
+    const enc = new TextEncoder();
+    const data = enc.encode(str);
+    const digest = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,"0")).join("");
+  }
+
+  async function computeChain(entries){
+    let prev = GENESIS;
+    for (const e of entries) {
+      const ce = canonicalEntry(e);
+      const payload = prev + "\n" + canonicalJson(ce);
+      prev = await sha256Hex(payload);
+      e.token = prev;
+      e.prev_token = (entries.indexOf(e)===0 ? "GENESIS" : entries[entries.indexOf(e)-1].token);
+    }
+    return entries.length ? entries[entries.length-1].token : "(empty)";
+  }
+
+  function el(id){ return document.getElementById(id); }
+
+  function render(entries){
+    const wrap = el("entries");
+    wrap.innerHTML = "";
+    if (!entries.length) {
+      wrap.innerHTML = '<p class="small">No entries yet. Solve TT-365/TT-366 games or add a line above.</p>';
+      return;
+    }
+    entries.slice().reverse().forEach((e, idx) => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <div class="small"><b>${e.segment}</b> — <span class="mono">${e.t_utc}</span></div>
+        <div><b>${e.title}</b></div>
+        <div class="small">${e.content.replace(/</g,"&lt;")}</div>
+        <div class="small mono" style="margin-top:6px;word-break:break-all">token: ${e.token || "(pending)"}</div>
+      `;
+      wrap.appendChild(div);
+    });
+  }
+
+  async function refresh(){
+    const entries = load();
+    await computeChain(entries);
+    save(entries);
+    render(entries);
+    el("tokenBox").textContent = entries.length ? entries[entries.length-1].token : "(empty)";
+    el("status").innerHTML = `<span class="ok">Loaded</span> ${entries.length} entries. Genesis: <span class="mono">${GENESIS}</span>`;
+  }
+
+  // prefill
+  el("tutc").value = isoNowZ();
+
+  el("addBtn").addEventListener("click", async () => {
+    const entries = load();
+    const ev = normStr(el("evidence").value);
+    const entry = {
+      id: "E" + Date.now().toString(36),
+      t_utc: normStr(el("tutc").value) || isoNowZ(),
+      segment: normStr(el("seg").value) || "TT-000",
+      title: normStr(el("title").value) || "(untitled)",
+      content: normStr(el("content").value),
+      evidence: ev ? ev.split(",").map(s=>normStr(s)).filter(Boolean) : []
+    };
+    entries.push(entry);
+    await computeChain(entries);
+    save(entries);
+    el("tutc").value = isoNowZ();
+    el("title").value = "";
+    el("content").value = "";
+    el("evidence").value = "";
+    await refresh();
+  });
+
+  el("clearBtn").addEventListener("click", async () => {
+    if (!confirm("Clear local journal entries?")) return;
+    localStorage.removeItem(KEY);
+    await refresh();
+  });
+
+  el("exportBtn").addEventListener("click", async () => {
+    const entries = load();
+    await computeChain(entries);
+    const out = {
+      genesis: GENESIS,
+      exported_utc: isoNowZ(),
+      entries: entries.map(canonicalEntry),
+      final_token: entries.length ? entries[entries.length-1].token : null
+    };
+    el("io").value = JSON.stringify(out, null, 2);
+  });
+
+  el("importBtn").addEventListener("click", async () => {
+    try {
+      const obj = JSON.parse(el("io").value);
+      if (!obj || !Array.isArray(obj.entries)) throw new Error("Invalid export");
+      // import canonical entries
+      const imported = obj.entries.map(e=>({
+        id: "I" + Math.random().toString(36).slice(2),
+        t_utc: normStr(e.t_utc),
+        segment: normStr(e.segment),
+        title: normStr(e.title),
+        content: normStr(e.content),
+        evidence: Array.isArray(e.evidence) ? e.evidence.map(normStr) : []
+      }));
+      await computeChain(imported);
+      save(imported);
+      await refresh();
+      alert("Imported.");
+    } catch(e) {
+      alert("Import failed: " + e.message);
+    }
+  });
+
+  // Allow other pages to add entries
+  window.TTJournal = {
+    add: async (entry) => {
+      const entries = load();
+      entries.push(entry);
+      await computeChain(entries);
+      save(entries);
+      return entries[entries.length-1].token;
+    },
+    KEY
+  };
+
+  refresh();
+})();
+</script>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

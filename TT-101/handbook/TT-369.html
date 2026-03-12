@@ -1,0 +1,211 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>TT-369 — QR Block Practice (Decode → Verify)</title>
+  <link rel="stylesheet" href="../assets/book.css"/>
+</head>
+<body>
+<!-- CUSTOM_HANDBOOK -->
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-369</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a href="./TT-368.html">← Prev</a>
+        <a href="./TT-370.html">Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body">
+        <h1>TT-369 — QR Block Practice (Decode → Verify)</h1>
+        <p class="small">This is a training + verification surface for TT-315 slates. You load a <code>slate.json</code>, then paste a single QR block payload (as <b>HEX</b> or <b>base64</b>). The tool computes <b>SHA-256</b> of the bytes and checks against the expected per-block hash.</p>
+
+        <section class="card">
+          <h2>1) Load slate.json</h2>
+          <div class="row" style="gap:10px;flex-wrap:wrap">
+            <input type="file" id="slateFile" accept="application/json"/>
+            <span class="small">Must contain <code>blocks.sha256</code> (packer v1.1+).</span>
+          </div>
+          <div class="mono" id="slateInfo" style="margin-top:10px;word-break:break-word"></div>
+        </section>
+
+        <section class="card">
+          <h2>2) Paste a block</h2>
+          <div class="row" style="gap:10px;flex-wrap:wrap">
+            <label class="small">Block index</label>
+            <input id="blockIndex" type="number" min="0" value="0" style="width:120px"/>
+            <select id="fmt">
+              <option value="hex">HEX</option>
+              <option value="b64">base64</option>
+            </select>
+            <button class="btn" id="verifyBtn" disabled>Verify</button>
+            <button class="btn" id="addJournalBtn" disabled>Add result to Journal</button>
+          </div>
+          <textarea class="mono" id="payload" rows="8" style="width:100%;margin-top:10px" placeholder="Paste block bytes here (HEX or base64)…"></textarea>
+          <div class="mono" id="result" style="margin-top:10px;word-break:break-word"></div>
+        </section>
+
+        <section class="card">
+          <h2>Notes</h2>
+          <ul>
+            <li>QR scanners often output bytes already; if your scanner exports as base64, use base64 mode.</li>
+            <li>HEX accepts whitespace and newlines; they are ignored.</li>
+            <li>This does <b>not</b> reconstruct the whole payload — it verifies a single block matches the expected bytes.</li>
+          </ul>
+        </section>
+
+      </article>
+    </main>
+  </div>
+
+<script>
+(() => {
+  const KEY = "TT_JOURNAL_ENTRIES_V1";
+  const el = (id)=>document.getElementById(id);
+
+  function isoNowZ(){
+    const d = new Date();
+    return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().replace('.000','').replace('Z','Z');
+  }
+
+  function normStr(s){ return (s??"").toString().replace(/
+/g,'
+').trim(); }
+
+  function load(){
+    try{ const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; }
+    catch(e){ return []; }
+  }
+  function save(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
+
+  async function sha256HexBytes(buf){
+    const digest = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+
+  function hexToBytes(hex){
+    const clean = hex.replace(/[^0-9a-fA-F]/g,'');
+    if(clean.length % 2) throw new Error('HEX length must be even');
+    const out = new Uint8Array(clean.length/2);
+    for(let i=0;i<out.length;i++) out[i]=parseInt(clean.substr(i*2,2),16);
+    return out;
+  }
+
+  function b64ToBytes(b64){
+    const bin = atob(b64.replace(/\s+/g,''));
+    const out = new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++) out[i]=bin.charCodeAt(i);
+    return out;
+  }
+
+  let slate = null;
+  let last = null;
+
+  el('slateFile').addEventListener('change', async (ev) => {
+    slate = null;
+    last = null;
+    el('verifyBtn').disabled = true;
+    el('addJournalBtn').disabled = true;
+    el('slateInfo').textContent = '';
+    el('result').textContent = '';
+
+    const f = ev.target.files && ev.target.files[0];
+    if(!f) return;
+    const buf = await f.arrayBuffer();
+    let obj;
+    try{ obj = JSON.parse(new TextDecoder().decode(buf)); }
+    catch(e){ el('slateInfo').textContent = 'Invalid slate.json'; return; }
+
+    const hashes = obj?.blocks?.sha256;
+    if(!Array.isArray(hashes) || !hashes.length){
+      el('slateInfo').innerHTML = 'This slate.json is missing <b>blocks.sha256</b>. Re-pack with the updated qr_slate_pack.py.';
+      return;
+    }
+
+    slate = obj;
+    el('slateInfo').innerHTML = [
+      `schema: <b>${normStr(obj.schema||'')}</b>`,
+      `generated_utc: <b class="mono">${normStr(obj.generated_utc||'')}</b>`,
+      `blocks: <b>${obj.blocks.count}</b> · chunk_bytes: <b>${obj.chunk_bytes}</b> · compress: <b>${obj.compress}</b>`,
+      `payload_sha256: <b class="mono">${obj.payload_sha256}</b>`
+    ].join('<br/>');
+
+    el('verifyBtn').disabled = false;
+  });
+
+  el('verifyBtn').addEventListener('click', async () => {
+    if(!slate) return;
+    el('addJournalBtn').disabled = true;
+    last = null;
+
+    const idx = parseInt(el('blockIndex').value,10);
+    const hashes = slate.blocks.sha256;
+    if(!(idx>=0 && idx<hashes.length)){
+      el('result').textContent = `Invalid block index. Must be 0..${hashes.length-1}`;
+      return;
+    }
+
+    const fmt = el('fmt').value;
+    const raw = el('payload').value;
+    let bytes;
+    try{
+      bytes = (fmt==='hex') ? hexToBytes(raw) : b64ToBytes(raw);
+    }catch(e){
+      el('result').textContent = 'Decode error: ' + e.message;
+      return;
+    }
+
+    const got = await sha256HexBytes(bytes.buffer);
+    const exp = hashes[idx];
+    const ok = (got === exp);
+
+    last = { idx, ok, got, exp, len: bytes.length, t_utc: isoNowZ() };
+
+    el('result').innerHTML = [
+      `block: <b>D${String(idx).padStart(3,'0')}</b> · bytes: <b>${bytes.length}</b>`,
+      `expected_sha256: <span class="mono">${exp}</span>`,
+      `computed_sha256: <span class="mono">${got}</span>`,
+      ok ? '<b>VERIFIED ✓</b>' : '<b>NOT MATCHING ✗</b>'
+    ].join('<br/>');
+
+    el('addJournalBtn').disabled = false;
+  });
+
+  el('addJournalBtn').addEventListener('click', () => {
+    if(!last) return;
+    const entry = {
+      t_utc: last.t_utc,
+      segment: 'TT-369',
+      title: 'QR block verify',
+      content: `Verified D${String(last.idx).padStart(3,'0')} = ${last.ok ? 'MATCH' : 'MISMATCH'} (len=${last.len}).`,
+      evidence: [
+        `expected_sha256=${last.exp}`,
+        `computed_sha256=${last.got}`,
+        `payload_sha256=${slate?.payload_sha256 || '(unknown)'}`
+      ]
+    };
+    const entries = load();
+    entries.push(entry);
+    save(entries);
+    el('addJournalBtn').textContent = 'Added ✓';
+    setTimeout(()=>{ el('addJournalBtn').textContent='Add result to Journal'; }, 1200);
+  });
+})();
+</script>
+</body>
+</html>

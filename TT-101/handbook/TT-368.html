@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-368 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-368</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-367.html'>← Prev</a>
+        <a class='btn' href='./TT-369.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-368 Continuity Token Spec</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<p>This defines the exact token computation so that different implementations can reproduce identical tokens.</p>
+<div class='sp'></div>
+<h2>Inputs</h2>
+<div class='sp'></div>
+<ul>
+<li>`prev_token` (hex SHA-256) OR `GENESIS`</li>
+<li>`entry` (JSON object)</li>
+</ul>
+<div class='sp'></div>
+<h2>Normalization Rules</h2>
+<div class='sp'></div>
+<p>1) Create a new object containing only these fields, in this order:</p>
+<div class='sp'></div>
+<ul>
+<li>`t_utc`</li>
+<li>`segment`</li>
+<li>`title`</li>
+<li>`content`</li>
+<li>`evidence` (array of strings; optional; if absent use `[]`)</li>
+</ul>
+<div class='sp'></div>
+<p>2) Normalize:</p>
+<ul>
+<li>Trim whitespace on strings</li>
+<li>Convert CRLF → LF</li>
+<li>`t_utc` must be ISO 8601 (e.g., `2026-03-05T00:00:00Z`)</li>
+</ul>
+<div class='sp'></div>
+<p>3) Serialize as canonical JSON:</p>
+<ul>
+<li>UTF-8</li>
+<li>no extra whitespace</li>
+<li>keys strictly in the specified order</li>
+</ul>
+<div class='sp'></div>
+<h2>Token computation</h2>
+<div class='sp'></div>
+<p>Let `payload_bytes = UTF8(prev_token + "\n" + canonical_json)`.</p>
+<div class='sp'></div>
+<p>Token = `SHA256(payload_bytes)` as lowercase hex.</p>
+<div class='sp'></div>
+<h2>Minimal verification bundle</h2>
+<div class='sp'></div>
+<p>A journal export is “complete” if it includes:</p>
+<div class='sp'></div>
+<ul>
+<li>`genesis`</li>
+<li>`entries[]`</li>
+<li>`final_token`</li>
+<li>`manifest_sha256` (optional but strongly recommended)</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<div class='sp'></div>
+<p>Write a plain-language summary of this segment.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<div class='sp'></div>
+<p>State why this segment exists in the overall continuity notebook.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<div class='sp'></div>
+<p>Explain where this fits in the training → artifact → verification → journal chain.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Verification</h2>
+<div class='sp'></div>
+<ul>
+<li>What would count as “worked” for this segment:</li>
+<li>What artifact/log proves it:</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<div class='sp'></div>
+<ul>
+<li>Date:</li>
+<li>What you did (verifiable):</li>
+<li>Evidence (hash/file/photo):</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<div class='sp'></div>
+<ul>
+<li>Next: <a href='./TT-369_QR_Block_Practice.md'>TT-369</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-368</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>
