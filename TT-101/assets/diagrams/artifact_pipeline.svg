@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <defs>
+    <style>
+      .t{font:16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;}
+      .s{stroke:#111;stroke-width:2;fill:none}
+      .b{fill:#fff;stroke:#111;stroke-width:2}
+      .f{fill:#111}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="24" y="24" width="912" height="312" rx="18" class="b"/>
+  <text x="48" y="58" class="t f">Artifact Pipeline (Survivability-First)</text>
+  <rect x="70" y="140" width="170" height="70" rx="14" class="b"/><text x="95" y="180" class="t">Canonical Text</text>
+  <rect x="285" y="140" width="170" height="70" rx="14" class="b"/><text x="305" y="170" class="t">Manifest</text><text x="305" y="192" class="t">(SHA-256)</text>
+  <rect x="500" y="140" width="170" height="70" rx="14" class="b"/><text x="520" y="170" class="t">Release Pin</text><text x="520" y="192" class="t">(hash + UTC)</text>
+  <rect x="715" y="140" width="170" height="70" rx="14" class="b"/><text x="735" y="170" class="t">Optical Slate</text><text x="735" y="192" class="t">(read-only)</text>
+  <path d="M240 175 L285 175" class="s" marker-end="url(#arrow)"/>
+  <path d="M455 175 L500 175" class="s" marker-end="url(#arrow)"/>
+  <path d="M670 175 L715 175" class="s" marker-end="url(#arrow)"/>
+  <text x="70" y="265" class="t">Goal: preserve verifiable information across infrastructure loss.</text>
+</svg>

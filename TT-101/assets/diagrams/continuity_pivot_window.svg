@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <defs>
+    <style>
+      .t{font:16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;}
+      .s{stroke:#111;stroke-width:2;fill:none}
+      .b{fill:#fff;stroke:#111;stroke-width:2}
+      .f{fill:#111}
+      .d{stroke-dasharray:8 6}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="24" y="24" width="912" height="312" rx="18" class="b"/>
+  <text x="48" y="58" class="t f">Continuity Graph + Pivot Window (Model-Agnostic)</text>
+  <path d="M80 150 C 210 70, 370 70, 500 150 C 630 230, 760 230, 880 150" class="s" marker-end="url(#arrow)"/>
+  <text x="80" y="120" class="t">Mainline state flow</text>
+  <circle cx="160" cy="112" r="10" fill="#111"/>
+  <circle cx="320" cy="88" r="10" fill="#111"/>
+  <circle cx="480" cy="144" r="10" fill="#111"/>
+  <circle cx="640" cy="224" r="10" fill="#111"/>
+  <circle cx="800" cy="200" r="10" fill="#111"/>
+  <rect x="410" y="84" width="170" height="150" rx="14" class="b"/>
+  <text x="425" y="110" class="t f">Pivot Window</text>
+  <text x="425" y="135" class="t">Bounded region where</text>
+  <text x="425" y="158" class="t">authenticated deltas</text>
+  <text x="425" y="181" class="t">may be applied.</text>
+  <path d="M480 144 C 520 40, 640 40, 700 120" class="s d" marker-end="url(#arrow)"/>
+  <text x="560" y="56" class="t">Potential divergence</text>
+</svg>

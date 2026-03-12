@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+  <rect x="0" y="0" width="1200" height="420" fill="#0b1220"/>
+  <text x="40" y="60" font-family="system-ui, -apple-system, Segoe UI, Roboto" font-size="28" fill="#e6f1ff">TT Civilization Progression Map (Simplified)</text>
+  <text x="40" y="95" font-family="system-ui, -apple-system, Segoe UI, Roboto" font-size="16" fill="#9fb3c8">Continuity architecture works without time travel; time travel (if ever) accelerates safely.</text>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto">
+    <rect x="40" y="140" width="170" height="90" rx="16" fill="#14213d"/>
+    <text x="55" y="175" font-size="18" fill="#e6f1ff">S2</text>
+    <text x="55" y="200" font-size="14" fill="#9fb3c8">Digital Civ</text>
+    <text x="55" y="222" font-size="12" fill="#9fb3c8">We are here</text>
+    <rect x="240" y="140" width="190" height="90" rx="16" fill="#14213d"/>
+    <text x="255" y="175" font-size="18" fill="#e6f1ff">S3</text>
+    <text x="255" y="200" font-size="14" fill="#9fb3c8">Automation/Fab</text>
+    <text x="255" y="222" font-size="12" fill="#9fb3c8">TT-604, TT-705</text>
+    <rect x="460" y="140" width="210" height="90" rx="16" fill="#14213d"/>
+    <text x="475" y="175" font-size="18" fill="#e6f1ff">S4</text>
+    <text x="475" y="200" font-size="14" fill="#9fb3c8">Multi-Planet</text>
+    <text x="475" y="222" font-size="12" fill="#9fb3c8">TT-603, TT-701</text>
+    <rect x="700" y="140" width="210" height="90" rx="16" fill="#14213d"/>
+    <text x="715" y="175" font-size="18" fill="#e6f1ff">S5</text>
+    <text x="715" y="200" font-size="14" fill="#9fb3c8">Interstellar</text>
+    <text x="715" y="222" font-size="12" fill="#9fb3c8">TT-801</text>
+    <rect x="940" y="140" width="220" height="90" rx="16" fill="#14213d"/>
+    <text x="955" y="175" font-size="18" fill="#e6f1ff">S6</text>
+    <text x="955" y="200" font-size="14" fill="#9fb3c8">Deep-Time</text>
+    <text x="955" y="222" font-size="12" fill="#9fb3c8">TT-805 (100k yr)</text>
+  </g>
+  <g stroke="#2dd4bf" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M210 185 L240 185"/>
+    <path d="M430 185 L460 185"/>
+    <path d="M670 185 L700 185"/>
+    <path d="M910 185 L940 185"/>
+  </g>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto">
+    <rect x="40" y="265" width="1120" height="120" rx="18" fill="#0f1b2e" stroke="#20304a"/>
+    <text x="60" y="300" font-size="18" fill="#e6f1ff">Pillars that make this inevitable (with or without time travel)</text>
+    <text x="60" y="330" font-size="13" fill="#9fb3c8">1) Fail-closed canon integrity (INDEX + manifest + CI)  •  2) Passive optical slate core (TT-307..314)  •  3) Distributed sites & governance (TT-401..404, TT-318)</text>
+    <text x="60" y="352" font-size="13" fill="#9fb3c8">4) Collapse resilience + reboot manual (TT-501..504)  •  5) DTN-style delay-tolerant sync for expansion (TT-602, TT-703)</text>
+    <text x="60" y="374" font-size="13" fill="#9fb3c8">Time travel, if ever achieved, only adds: authenticated minimal interventions (TT-201, TT-606)</text>
+  </g>
+</svg>

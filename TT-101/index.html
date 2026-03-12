@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TT-101 (TT-101)</title>
+  <meta name="description" content="TT-101 — Conceptual Framework & Timeproof Continuity Protocol." />
+  <style>
+    :root{
+      --bg:#0b0f17; --panel:#111a2b; --panel2:#0f1626; --text:#e9eefc; --muted:#a8b3d6;
+      --accent:#7aa2ff; --accent2:#9bffb6; --warn:#ffcc66; --border:rgba(122,162,255,.18);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); color:var(--text);
+      background: radial-gradient(1100px 800px at 20% 0%, rgba(122,162,255,.15), transparent 55%),
+                  radial-gradient(1000px 700px at 80% 10%, rgba(155,255,182,.10), transparent 55%),
+                  linear-gradient(180deg, var(--bg), #070a10 70%);
+      min-height:100vh;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{
+      padding:28px 18px 10px;
+      max-width:1100px; margin:0 auto;
+    }
+    .brand{
+      display:flex; align-items:flex-start; gap:14px;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(122,162,255,.9), rgba(155,255,182,.75));
+      box-shadow: var(--shadow);
+      position:relative;
+    }
+    .logo:after{
+      content:""; position:absolute; inset:9px; border-radius:10px;
+      background: radial-gradient(circle at 30% 30%, rgba(11,15,23,.0), rgba(11,15,23,.9));
+      border:1px solid rgba(255,255,255,.12);
+    }
+    h1{margin:0; font-size:28px; letter-spacing:.2px}
+    .sub{margin-top:6px; color:var(--muted); line-height:1.5; max-width:880px}
+    .pillrow{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+    .pill{
+      border:1px solid var(--border); background: rgba(17,26,43,.55);
+      padding:6px 10px; border-radius:999px; color:var(--muted); font-size:13px;
+    }
+    main{max-width:1100px; margin:0 auto; padding:14px 18px 42px}
+    .grid{
+      display:grid; grid-template-columns: 1.25fr .75fr; gap:16px;
+    }
+    @media (max-width: 920px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(17,26,43,.92), rgba(15,22,38,.92));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(122,162,255,.14);
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .card .hd b{font-size:14px; letter-spacing:.3px}
+    .card .bd{padding:16px}
+    .kvs{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    @media (max-width:560px){ .kvs{grid-template-columns:1fr} }
+    .kv{
+      padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,.08);
+      background: rgba(11,15,23,.35);
+    }
+    .kv .k{font-size:12px; color:var(--muted); margin-bottom:6px}
+    .kv .v{font-size:14px; line-height:1.45}
+    .cta{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(122,162,255,.14);
+      color:var(--text);
+      cursor:pointer;
+      font-size:14px;
+    }
+    .btn:hover{background: rgba(122,162,255,.2)}
+    .btn.secondary{background: rgba(155,255,182,.12)}
+    .btn.secondary:hover{background: rgba(155,255,182,.18)}
+    .btn.warn{background: rgba(255,204,102,.12)}
+    .btn.warn:hover{background: rgba(255,204,102,.18)}
+    pre{
+      margin:0; padding:14px;
+      background: rgba(7,10,16,.65);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      overflow:auto;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: #e6edff;
+      white-space: pre-wrap;
+    }
+    .sep{height:10px}
+    .toc-h{margin:10px 0 6px 0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+    .toc a.missing{opacity:.6;text-decoration:line-through}
+
+    .toc a{display:block; padding:8px 10px; border-radius:10px; color:var(--text)}
+    .toc a:hover{background: rgba(255,255,255,.06)}
+    .muted{color:var(--muted)}
+    .small{font-size:12px}
+    .hr{height:1px; background: rgba(122,162,255,.14); margin:12px 0}
+    footer{max-width:1100px; margin:0 auto; padding:10px 18px 28px; color:var(--muted)}
+    code{font-family:var(--mono); font-size:.95em}
+    .badge{
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      color: var(--muted);
+      background: rgba(0,0,0,.18);
+      white-space: nowrap;
+    }
+      ::selection{background:rgba(122,162,255,.28);color:var(--text)}
+    .bd.toc{user-select:text}
+
+    .bd.toc::-webkit-scrollbar{width:10px;}
+
+
+    .bd.toc::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:12px;}
+
+
+    .bd.toc a{display:block;line-height:1.25;margin:2px 0;}
+
+</style>
+</head>
+<body data-package-version="v1.0">
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>TT-101 <span class="badge">TT-101</span></h1>
+      <div class="sub">
+        A conceptual framework + practical protocol pack designed to maximize continuity across unknown time models
+        (fixed/self-consistent, branching, or unknown), while remaining safe and minimal-impact.
+      </div>
+      <div class="pillrow">
+        <div class="pill">Conceptual — not established physics</div>
+        <div class="pill">Minimal-Impact Message Budget</div>
+        <div class="pill">Handshake / Anti-Impostor</div>
+        <div class="pill">Distributed Archives + Integrity</div>
+        <div class="pill">Pivot Window + Attractors</div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="tt-start-here" style="margin:12px 0;"><a href="handbook/START_HERE.html">Start Here → Guided Reading Tracks</a></div>
+
+
+<main>
+  <div class="grid">
+    <section class="card">
+      <div class="hd">
+        <b>What this repo is for</b>
+        <span class="muted small">Use as a living canon / archive.</span>
+
+        <a href="canon/TT-300_Artifact/TT-301_Optical_Slate_Archive_Core.md"><b>TT-301</b> — Optical Slate Archive</a>
+        <a href="canon/TT-300_Artifact/TT-310_Decoding_Ladder_Rosetta.md"><b>TT-310</b> — Decoding Ladder</a>
+        <a href="canon/TT-300_Artifact/TT-315_Binary_QR_Slate_Encoding.md"><b>TT-315</b> — Binary QR Slate Encoding (Binary QR / smallest-size)</a>
+        <a href="canon/TT-300_Artifact/TT-320_Erosion_Tolerant_Error_Correction.md"><b>TT-320</b> — Erosion‑Tolerant ECC</a>
+        <a href="canon/TT-300_Artifact/TT-330_Slate_RAID_Block_Format.md"><b>TT-330</b> — Slate RAID Format</a>
+        <a href="canon/TT-300_Artifact/TT-340_Materials_and_Engraving_Depth.md"><b>TT-340</b> — Materials & Depth</a>
+        <a href="canon/TT-300_Artifact/TT-350_Laser_Workflow_QA_and_Copying.md"><b>TT-350</b> — Laser Workflow & QA</a>
+
+
+</div>
+      <div class="bd">
+        <div class="kvs">
+          <div class="kv">
+            <div class="k">Goal</div>
+            <div class="v">Maximize the chance of a low-collateral “future-to-past” intervention that helps <i>you</i> at a pivotal moment without destabilizing broader history.</div>
+          </div>
+          <div class="kv">
+            <div class="k">Assumption-agnostic</div>
+            <div class="v">Works whether time is self-consistent, branching, or unknown. If time travel is impossible, it still functions as a forward-only self-alignment system.</div>
+          </div>
+          <div class="kv">
+            <div class="k">Security posture</div>
+            <div class="v">Fail-closed authentication: “No handshake = no trust.” No high-impact info dumps; no public demonstrations.</div>
+          </div>
+          <div class="kv">
+            <div class="k">Protocol core</div>
+            <div class="v"><b>Pivot Window</b> + <b>Minimal Message Budget</b> + <b>3-part Handshake</b> + <b>Distributed Archives</b> + <b>Attractors</b>.</div>
+          </div>
+        </div>
+
+        <div class="cta">
+          <a class="btn" href="canon/TT-100_Core/TT-101_Master_Canon.md">Open Master Canon</a>
+          <a class="btn" href="canon/TT-100_Core/TT-110_Framework.md">Open Framework</a>
+          <a class="btn secondary" href="canon/TT-200_Protocol/TT-201_Continuity_Protocol.md">Open Continuity Protocol</a>
+          <a class="btn warn" href="TT-000_Canon_Status.md">Read Canon Status</a>
+          <a class="btn secondary" href="CANON_LOG.md">Open Canon Log</a>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="muted small">
+          Tip: Host this on GitHub Pages by enabling Pages for the <code>main</code> branch and selecting <code>/ (root)</code>.
+        </div>
+        <pre>
+Quick start (GitHub Pages)
+1) Push this repo to GitHub
+2) Repo Settings → Pages
+3) Source: Deploy from branch → main → / (root)
+4) Your landing page will be: https://&lt;user&gt;.github.io/&lt;repo&gt;/</pre>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="hd">
+        <b>Navigation</b>
+        <span class="muted small">Key documents</span>
+      </div>
+      <div class="kv">
+        <a class="pill" href="handbook/index.html">Handbook (Reader Pages)</a>
+      </div>
+      
+                        <!-- TOC:BEGIN -->
+      <div class="bd toc">
+        <div class="toc-h">TT-100 — CORE</div>
+        <a href="canon/TT-100_Core/TT-101_Handbook.md"><b>TT-101</b> — Conceptual Framework</a>
+        <a href="canon/TT-100_Core/TT-101_Master_Canon.md"><b>TT-101</b> — Conceptual Framework</a>
+        <a href="canon/TT-100_Core/TT-110_Framework.md"><b>TT-110</b> — Epistemic Constraint Discipline</a>
+        <a href="canon/TT-100_Core/TT-120_Landing_Surface_Spec.md"><b>TT-120</b> — Structural Model Definition</a>
+        <a href="canon/TT-100_Core/TT-130_Anti_Ideology_Guardrails.md"><b>TT-130</b> — Minimal Action Doctrine</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-200 — PROTOCOL</div>
+        <a href="canon/TT-200_Protocol/TT-201_Continuity_Protocol.md"><b>TT-201</b> — Timeproof Continuity Protocol</a>
+        <a href="canon/TT-200_Protocol/TT-210_Pivot_Window_Model.md"><b>TT-210</b> — Pivot Window Model</a>
+        <a href="canon/TT-200_Protocol/TT-220_Minimal_Message_Architecture.md"><b>TT-220</b> — Minimal Message Architecture</a>
+        <a href="canon/TT-200_Protocol/TT-230_Handshake_Spec.md"><b>TT-230</b> — Handshake Specification</a>
+        <a href="canon/TT-200_Protocol/TT-240_Distributed_Archive_Spec.md"><b>TT-240</b> — Distributed Archive Specification</a>
+        <a href="canon/TT-200_Protocol/TT-250_Temporal_Beacon_Protocol.md"><b>TT-250</b> — Temporal Beacon Protocol</a>
+        <a href="canon/TT-200_Protocol/TT-255_Observer_Listening_Model.md"><b>TT-255</b> — Observer Listening Model</a>
+        <a href="canon/TT-200_Protocol/TT-258_Divergence_NonResponse.md"><b>TT-258</b> — Divergence / Non-Response Interpretation</a>
+        <a href="canon/TT-200_Protocol/TT-259_Temporal_Beacon_Experiment.md"><b>TT-259</b> — Temporal Beacon Experiment</a>
+        <a href="canon/TT-200_Protocol/TT-260_Iterative_Counterjump_Steering.md"><b>TT-260</b> — Iterative Counterjump Steering (ICS)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-300 — ARTIFACT</div>
+        <a href="canon/TT-300_Artifact/TT-301_Optical_Slate_Archive_Core.md"><b>TT-301</b> — Optical Slate Archive (Passive Core)</a>
+        <a href="canon/TT-300_Artifact/TT-310_Decoding_Ladder_Rosetta.md"><b>TT-310</b> — Decoding Ladder (Rosetta Layer)</a>
+        <a href="canon/TT-300_Artifact/TT-315_Binary_QR_Slate_Encoding.md"><b>TT-315</b> — Binary QR Slate Encoding (Smallest-Size Storage)</a>
+        <a href="canon/TT-300_Artifact/TT-320_Erosion_Tolerant_Error_Correction.md"><b>TT-320</b> — Erosion-Tolerant Error Correction</a>
+        <a href="canon/TT-300_Artifact/TT-330_Slate_RAID_Block_Format.md"><b>TT-330</b> — Slate RAID Block Format (Physical Dataset Assembly)</a>
+        <a href="canon/TT-300_Artifact/TT-340_Materials_and_Engraving_Depth.md"><b>TT-340</b> — Materials & Engraving Depth (Survivability)</a>
+        <a href="canon/TT-300_Artifact/TT-350_Laser_Workflow_QA_and_Copying.md"><b>TT-350</b> — Laser Workflow, QA, and Copying</a>
+        <a href="canon/TT-300_Artifact/TT-360_Optical_Slate_Block_Spec.md"><b>TT-360</b> — Optical Slate Block Specification (v1)</a>
+        <a href="canon/TT-300_Artifact/TT-364_Binary_Character_Atlas.md"><b>TT-364</b> — Binary Character Atlas (0–255) + Decoder (DIY Game (Canon))</a>
+        <a href="canon/TT-300_Artifact/TT-365_Binary_Decoder_Hangman.md"><b>TT-365</b> — Binary Decoder + Binary Hangman (DIY Handbook Game)</a>
+        <a href="canon/TT-300_Artifact/TT-366_Binary_Crossword.md"><b>TT-366</b> — Binary Crossword Puzzle (DIY Handbook Game)</a>
+        <a href="canon/TT-300_Artifact/TT-367_Archive_Journal_Continuity_Token.md"><b>TT-367</b> — Archive Journal & Continuity Token</a>
+        <a href="canon/TT-300_Artifact/TT-368_Continuity_Token_Spec.md"><b>TT-368</b> — Continuity Token Spec</a>
+        <a href="canon/TT-300_Artifact/TT-369_QR_Block_Practice.md"><b>TT-369</b> — QR Block Practice (Decode → Verify)</a>
+        <a href="canon/TT-300_Artifact/TT-370_Archive_Journal_Prompts.md"><b>TT-370</b> — Archive Journal Prompts (Applicable Segments Only)</a>
+        <a href="canon/TT-300_Artifact/TT-370_Hello_World_Test_Slate.md"><b>TT-370</b> — “Hello World” Test Slate (v1)</a>
+        <a href="canon/TT-300_Artifact/TT-380_Optical_Slate_Certification_Standard.md"><b>TT-380</b> — Optical Slate Certification Standard (v1.0)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-400 — INTEGRITY</div>
+        <a href="canon/TT-400_Integrity/TT-401_Tri_Format_Archive.md"><b>TT-401</b> — Tri-Format Archive</a>
+        <a href="canon/TT-400_Integrity/TT-410_Distributed_Signing_and_Verification_Policy.md"><b>TT-410</b> — Distributed Signing & Verification Policy (v1)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-500 — GOVERNANCE</div>
+        <a href="canon/TT-500_Governance/TT-501_Canon_Governance_Hardening.md"><b>TT-501</b> — Canon Governance Hardening (Fail-Closed)</a>
+        <a href="canon/TT-500_Governance/TT-510_Incident_Response_and_Freeze_Template.md"><b>TT-510</b> — Incident Response & Canon Freeze Template</a>
+        <a href="canon/TT-500_Governance/TT-520_Red_Team_Adversarial_Report.md"><b>TT-520</b> — Red Team Adversarial Report (v1)</a>
+        <a href="canon/TT-500_Governance/TT-530_Slate_Materials_Testing_Plan.md"><b>TT-530</b> — Optical Slate Materials Testing Plan (v1)</a>
+        <a href="canon/TT-500_Governance/TT-535_Materials_and_Degradation_Modeling_Annex.md"><b>TT-535</b> — Materials & Degradation Modeling Annex (v1.0)</a>
+        <a href="canon/TT-500_Governance/TT-540_Geological_Site_Selection.md"><b>TT-540</b> — Geological Site Selection</a>
+        <a href="canon/TT-500_Governance/TT-545_Threat_and_Adversarial_Model_Annex.md"><b>TT-545</b> — Threat & Adversarial Model Annex (v1.0)</a>
+        <a href="canon/TT-500_Governance/TT-550_Legal_Continuity_Framework.md"><b>TT-550</b> — Legal & Ownership Continuity</a>
+        <a href="canon/TT-500_Governance/TT-560_Rediscovery_Pathway.md"><b>TT-560</b> — Rediscovery Pathway</a>
+        <a href="canon/TT-500_Governance/TT-570_AI_Ethical_Constraints.md"><b>TT-570</b> — AI Ethical Constraint Layer</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-600 — SELF SUFFICIENCY</div>
+        <a href="canon/TT-600_Self_Sufficiency/TT-601_Self_Fabrication_and_Self_Sufficiency_Doctrine.md"><b>TT-601</b> — Self-Fabrication & Self-Sufficiency Doctrine (v1)</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-610_Bootstrap_vs_DeepTime_Substrate.md"><b>TT-610</b> — Bootstrap vs Deep-Time Substrate (v1)</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-620_Compute_Degradation_Modes.md"><b>TT-620</b> — Compute Degradation Modes</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-630_Robotics_Minimal_Set.md"><b>TT-630</b> — Robotics Minimal Set</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-640_Consumables_and_Corrosion.md"><b>TT-640</b> — Consumables & Corrosion</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-650_Hibernation_Doctrine.md"><b>TT-650</b> — Hibernation Doctrine</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-660_SelfReplication_FabStack.md"><b>TT-660</b> — Self-Replication & the Fab Stack</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-670_Post_Scarcity_Automation_Map.md"><b>TT-670</b> — Post-Scarcity Automation Map</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-680_1000yr_Vault_Overview.md"><b>TT-680</b> — 1000-Year Continuity Vault Overview</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-690_Energy_Budget_and_Dormancy_Model_Annex.md"><b>TT-690</b> — Energy Budget & Dormancy Model Annex (v1.0)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-700 — EXPANSION</div>
+        <a href="canon/TT-700_Expansion/TT-700_Node_Synchronization_Protocol.md"><b>TT-700</b> — Node Synchronization Protocol</a>
+        <a href="canon/TT-700_Expansion/TT-701_Collapse_Resilience_Model.md"><b>TT-701</b> — Civilizational Collapse Resilience Model</a>
+        <a href="canon/TT-700_Expansion/TT-705_Deep_Time_Governance_Model.md"><b>TT-705</b> — Deep-Time Governance Model</a>
+        <a href="canon/TT-700_Expansion/TT-710_Post_Event_Reboot_Manual.md"><b>TT-710</b> — Post-Event Reboot Manual (Template)</a>
+        <a href="canon/TT-700_Expansion/TT-720_Non_Disruptive_Breadcrumbs.md"><b>TT-720</b> — Signal-to-Future Strategy (Non-Disruptive Breadcrumbs)</a>
+        <a href="canon/TT-700_Expansion/TT-730_Cosmological_Risk_Modeling.md"><b>TT-730</b> — Cosmological / Planetary Risk Modeling (High-Level)</a>
+        <a href="canon/TT-700_Expansion/TT-740_10000yr_Outlook.md"><b>TT-740</b> — 10,000-Year Outlook (Beyond the Vault)</a>
+        <a href="canon/TT-700_Expansion/TT-750_Interplanetary_Interstellar_Comms.md"><b>TT-750</b> — Interplanetary & Interstellar Communications</a>
+        <a href="canon/TT-700_Expansion/TT-760_MultiPlanet_Deployment.md"><b>TT-760</b> — Multi-Planet Deployment (Solar System Connectivity)</a>
+        <a href="canon/TT-700_Expansion/TT-770_Civilization_Stages_and_Where_We_Are.md"><b>TT-770</b> — Civilization Stages & Where We Sit</a>
+        <a href="canon/TT-700_Expansion/TT-780_TimeTravel_Acceleration_Map.md"><b>TT-780</b> — How This Plan Accelerates if Time Travel Ever Exists</a>
+        <a href="canon/TT-700_Expansion/TT-790_Solar_System_Continuity_Network_Spec.md"><b>TT-790</b> — Solar System Continuity Network (Spec)</a>
+        <a href="canon/TT-700_Expansion/TT-795_Minimum_Viable_Outpost_BOM.md"><b>TT-795</b> — Minimum Viable Outpost (MVO) Bill of Materials</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-800 — OPERATIONAL MODELING</div>
+        <a href="canon/TT-800_Operational_Modeling/TT-800_Operational_Modeling_Overview.md"><b>TT-800</b> — Divergence Modeling & Stress Testing</a>
+        <a href="canon/TT-800_Operational_Modeling/TT-810_ICS_Simulation_Scenarios.md"><b>TT-810</b> — ICS Simulation Scenarios (v1.0)</a>
+        <a href="canon/TT-800_Operational_Modeling/TT-820_Attractor_Mapping_Method.md"><b>TT-820</b> — Attractor Mapping Method (v1.0)</a>
+        <a href="canon/TT-800_Operational_Modeling/TT-830_Divergence_Budget_Model.md"><b>TT-830</b> — Divergence Budget Model (v1.0)</a>
+        <a href="canon/TT-800_Operational_Modeling/TT-840_Observer_Drift_and_Identity.md"><b>TT-840</b> — Observer Drift & Identity Continuity (v1.0)</a>
+        <a href="canon/TT-800_Operational_Modeling/TT-880_Failure_Modes_and_Mitigations.md"><b>TT-880</b> — Failure Modes & Mitigations (v1.0)</a>
+        <a href="canon/TT-800_Operational_Modeling/TT-890_Ethics_Constraint_Model.md"><b>TT-890</b> — Ethics Constraint Model (v1.0)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-900 — META</div>
+        <a href="canon/TT-900_Meta/TT-901_Canon_Status.md"><b>TT-901</b> — Canon Status (Entry Point)</a>
+        <a href="canon/TT-900_Meta/TT-920_Canon_Log.md"><b>TT-920</b> — Canon Log (Entry Point)</a>
+        <a href="canon/TT-900_Meta/TT-930_Integrity_Manifest.md"><b>TT-930</b> — Integrity Manifest (How to Verify)</a>
+        <a href="canon/TT-900_Meta/TT-940_Release_Statement.md"><b>TT-940</b> — Release Statement (v1.0)</a>
+        <a href="release/RELEASE_v1.0.txt"><b>Release</b> — v1.0 Statement</a>
+        <a href="manifest/hashes.txt"><b>Manifest</b> — Integrity Hashes</a>
+        <a href="canon/TT-900_Meta/TT-950_Stewardship_Transfer_Protocol.md"><b>TT-950</b> — Stewardship Transfer Protocol (v1.0)</a>
+        <a href="canon/TT-900_Meta/TT-960_Reproducible_Verification_Environment.md"><b>TT-960</b> — Reproducible Verification Environment (v1.0)</a>
+        <a href="canon/TT-900_Meta/TT-970_Simulation_Appendix.md"><b>TT-970</b> — Simulation Appendix (v1.0)</a>
+        <a href="canon/TT-900_Meta/TT-999_Legacy_Master_Canon_ID.md"><b>TT-999</b> — Legacy Master Canon ID (Compatibility)</a>
+      </div>
+      <!-- TOC:END -->
+        <a href="canon/TT-100_Core/TT-101_Master_Canon.md"><b>TT-101</b> — TT-999 — Master Canon v1 (Single-Document Overview)</a>
+        <a href="canon/TT-100_Core/TT-110_Framework.md"><b>TT-110</b> — TT-101 — Conceptual Framework</a>
+        <a href="canon/TT-100_Core/TT-120_Landing_Surface_Spec.md"><b>TT-120</b> — TT-110 — Landing Surface Spec (DARPA-Grade)</a>
+        <a href="canon/TT-100_Core/TT-130_Anti_Ideology_Guardrails.md"><b>TT-130</b> — TT-326 — Anti-Ideology / Anti-Cult Guardrails (v1)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-200 — PROTOCOL</div>
+        <a href="canon/TT-200_Protocol/TT-201_Continuity_Protocol.md"><b>TT-201</b> — Timeproof Continuity Protocol</a>
+        <a href="canon/TT-200_Protocol/TT-210_Pivot_Window_Model.md"><b>TT-210</b> — TT-202 — Pivot Window Model</a>
+        <a href="canon/TT-200_Protocol/TT-220_Minimal_Message_Architecture.md"><b>TT-220</b> — TT-203 — Minimal Message Architecture</a>
+        <a href="canon/TT-200_Protocol/TT-230_Handshake_Spec.md"><b>TT-230</b> — TT-204 — Handshake Specification</a>
+        <a href="canon/TT-200_Protocol/TT-240_Distributed_Archive_Spec.md"><b>TT-240</b> — TT-205 — Distributed Archive Specification</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-300 — ARTIFACT</div>
+        <a href="canon/TT-300_Artifact/TT-301_Optical_Slate_Archive_Core.md"><b>TT-301</b> — TT-307 — Optical Slate Archive (Passive Core)</a>
+        <a href="canon/TT-300_Artifact/TT-310_Decoding_Ladder_Rosetta.md"><b>TT-310</b> — TT-308 — Decoding Ladder (Rosetta Layer)</a>
+        <a href="canon/TT-300_Artifact/TT-320_Erosion_Tolerant_Error_Correction.md"><b>TT-320</b> — TT-309 — Erosion-Tolerant Error Correction</a>
+        <a href="canon/TT-300_Artifact/TT-330_Slate_RAID_Block_Format.md"><b>TT-330</b> — TT-310 — Slate RAID Block Format (Physical Dataset Assembly)</a>
+        <a href="canon/TT-300_Artifact/TT-340_Materials_and_Engraving_Depth.md"><b>TT-340</b> — TT-311 — Materials & Engraving Depth (Survivability)</a>
+        <a href="canon/TT-300_Artifact/TT-350_Laser_Workflow_QA_and_Copying.md"><b>TT-350</b> — TT-312 — Laser Workflow, QA, and Copying</a>
+        <a href="canon/TT-300_Artifact/TT-360_Optical_Slate_Block_Spec.md"><b>TT-360</b> — TT-313 — Optical Slate Block Specification (v1)</a>
+        <a href="canon/TT-300_Artifact/TT-370_Hello_World_Test_Slate.md"><b>TT-370</b> — TT-314 — “Hello World” Test Slate (v1)</a>
+        <a href="canon/TT-300_Artifact/TT-380_Optical_Slate_Certification_Standard.md"><b>TT-380</b> — TT-328 — Optical Slate Certification Standard (v1.0)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-400 — INTEGRITY</div>
+        <a href="canon/TT-400_Integrity/TT-401_Tri_Format_Archive.md"><b>TT-401</b> — TT-303 — Tri-Format Archive</a>
+        <a href="canon/TT-400_Integrity/TT-410_Distributed_Signing_and_Verification_Policy.md"><b>TT-410</b> — TT-327 — Distributed Signing & Verification Policy (v1)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-500 — GOVERNANCE</div>
+        <a href="canon/TT-500_Governance/TT-501_Canon_Governance_Hardening.md"><b>TT-501</b> — TT-318 — Canon Governance Hardening (Fail-Closed)</a>
+        <a href="canon/TT-500_Governance/TT-510_Incident_Response_and_Freeze_Template.md"><b>TT-510</b> — TT-321 — Incident Response & Canon Freeze Template</a>
+        <a href="canon/TT-500_Governance/TT-520_Red_Team_Adversarial_Report.md"><b>TT-520</b> — TT-319 — Red Team Adversarial Report (v1)</a>
+        <a href="canon/TT-500_Governance/TT-530_Slate_Materials_Testing_Plan.md"><b>TT-530</b> — TT-320 — Optical Slate Materials Testing Plan (v1)</a>
+        <a href="canon/TT-500_Governance/TT-535_Materials_and_Degradation_Modeling_Annex.md"><b>TT-535</b> — Materials & Degradation Modeling Annex (v1.0)</a>
+        <a href="canon/TT-500_Governance/TT-540_Geological_Site_Selection.md"><b>TT-540</b> — TT-401 — Geological Site Selection</a>
+        <a href="canon/TT-500_Governance/TT-545_Threat_and_Adversarial_Model_Annex.md"><b>TT-545</b> — Threat & Adversarial Model Annex (v1.0)</a>
+        <a href="canon/TT-500_Governance/TT-550_Legal_Continuity_Framework.md"><b>TT-550</b> — TT-402 — Legal & Ownership Continuity</a>
+        <a href="canon/TT-500_Governance/TT-560_Rediscovery_Pathway.md"><b>TT-560</b> — TT-403 — Rediscovery Pathway</a>
+        <a href="canon/TT-500_Governance/TT-570_AI_Ethical_Constraints.md"><b>TT-570</b> — TT-404 — AI Ethical Constraint Layer</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-600 — SELF SUFFICIENCY</div>
+        <a href="canon/TT-600_Self_Sufficiency/TT-601_Self_Fabrication_and_Self_Sufficiency_Doctrine.md"><b>TT-601</b> — TT-324 — Self-Fabrication & Self-Sufficiency Doctrine (v1)</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-610_Bootstrap_vs_DeepTime_Substrate.md"><b>TT-610</b> — TT-325 — Bootstrap vs Deep-Time Substrate (v1)</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-620_Compute_Degradation_Modes.md"><b>TT-620</b> — TT-304 — Compute Degradation Modes</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-630_Robotics_Minimal_Set.md"><b>TT-630</b> — TT-305 — Robotics Minimal Set</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-640_Consumables_and_Corrosion.md"><b>TT-640</b> — TT-306 — Consumables & Corrosion</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-650_Hibernation_Doctrine.md"><b>TT-650</b> — TT-302 — Hibernation Doctrine</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-660_SelfReplication_FabStack.md"><b>TT-660</b> — TT-604 — Self-Replication & the Fab Stack</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-670_Post_Scarcity_Automation_Map.md"><b>TT-670</b> — TT-705 — Post-Scarcity Automation Map</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-680_1000yr_Vault_Overview.md"><b>TT-680</b> — TT-301 — 1000-Year Continuity Vault Overview</a>
+        <a href="canon/TT-600_Self_Sufficiency/TT-690_Energy_Budget_and_Dormancy_Model_Annex.md"><b>TT-690</b> — Energy Budget & Dormancy Model Annex (v1.0)</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-700 — EXPANSION</div>
+        <a href="canon/TT-700_Expansion/TT-700_Node_Synchronization_Protocol.md"><b>TT-700</b> — TT-703 — Node Synchronization Protocol</a>
+        <a href="canon/TT-700_Expansion/TT-701_Collapse_Resilience_Model.md"><b>TT-701</b> — TT-501 — Civilizational Collapse Resilience Model</a>
+        <a href="canon/TT-700_Expansion/TT-705_Deep_Time_Governance_Model.md"><b>TT-705</b> — TT-704 — Deep-Time Governance Model</a>
+        <a href="canon/TT-700_Expansion/TT-710_Post_Event_Reboot_Manual.md"><b>TT-710</b> — TT-502 — Post-Event Reboot Manual (Template)</a>
+        <a href="canon/TT-700_Expansion/TT-720_Non_Disruptive_Breadcrumbs.md"><b>TT-720</b> — TT-503 — Signal-to-Future Strategy (Non-Disruptive Breadcrumbs)</a>
+        <a href="canon/TT-700_Expansion/TT-730_Cosmological_Risk_Modeling.md"><b>TT-730</b> — TT-504 — Cosmological / Planetary Risk Modeling (High-Level)</a>
+        <a href="canon/TT-700_Expansion/TT-740_10000yr_Outlook.md"><b>TT-740</b> — TT-601 — 10,000-Year Outlook (Beyond the Vault)</a>
+        <a href="canon/TT-700_Expansion/TT-750_Interplanetary_Interstellar_Comms.md"><b>TT-750</b> — TT-602 — Interplanetary & Interstellar Communications</a>
+        <a href="canon/TT-700_Expansion/TT-760_MultiPlanet_Deployment.md"><b>TT-760</b> — TT-603 — Multi-Planet Deployment (Solar System Connectivity)</a>
+        <a href="canon/TT-700_Expansion/TT-770_Civilization_Stages_and_Where_We_Are.md"><b>TT-770</b> — TT-605 — Civilization Stages & Where We Sit</a>
+        <a href="canon/TT-700_Expansion/TT-780_TimeTravel_Acceleration_Map.md"><b>TT-780</b> — TT-606 — How This Plan Accelerates if Time Travel Ever Exists</a>
+        <a href="canon/TT-700_Expansion/TT-790_Solar_System_Continuity_Network_Spec.md"><b>TT-790</b> — TT-701 — Solar System Continuity Network (Spec)</a>
+        <a href="canon/TT-700_Expansion/TT-795_Minimum_Viable_Outpost_BOM.md"><b>TT-795</b> — TT-702 — Minimum Viable Outpost (MVO) Bill of Materials</a>
+        <div class="sep"></div>
+        <div class="toc-h">TT-900 — META</div>
+        <a href="canon/TT-900_Meta/TT-901_Canon_Status.md"><b>TT-901</b> — Canon Status (Entry Point)</a>
+        <a href="canon/TT-900_Meta/TT-920_Canon_Log.md"><b>TT-920</b> — Canon Log (Entry Point)</a>
+        <a href="canon/TT-900_Meta/TT-930_Integrity_Manifest.md"><b>TT-930</b> — Integrity Manifest (How to Verify)</a>
+        <a href="canon/TT-900_Meta/TT-940_Release_Statement.md"><b>TT-940</b> — Release Statement (v1.0)</a>
+        <a href="release/RELEASE_v1.0.txt"><b>Release</b> — v1.0 Statement</a>
+        <a href="manifest/hashes.txt"><b>Manifest</b> — Integrity Hashes</a>
+        <a href="canon/TT-900_Meta/TT-950_Stewardship_Transfer_Protocol.md"><b>TT-950</b> — Stewardship Transfer Protocol (v1.0)</a>
+        <a href="canon/TT-900_Meta/TT-960_Reproducible_Verification_Environment.md"><b>TT-960</b> — Reproducible Verification Environment (v1.0)</a>
+        <a href="canon/TT-900_Meta/TT-970_Simulation_Appendix.md"><b>TT-970</b> — Simulation Appendix (v1.0)</a>
+        <a href="canon/TT-900_Meta/TT-999_Legacy_Master_Canon_ID.md"><b>TT-999</b> — Legacy Master Canon ID (Compatibility)</a>
+      </div>
+<!-- removed legacy nav dump segment (v9 fix) -->
+Recommended workflow:
+          <ol class="muted small">
+            <li>Finalize your Pivot Window</li>
+            <li>Finalize Handshake (phrase + artifact + behavioral)</li>
+            <li>Write the one-page Intervention Card</li>
+            <li>Append-only canon log updates</li>
+          </ol>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="hd">
+      <b>Intervention Card (one-page rule)</b>
+      <span class="muted small">Keep it minimal-impact.</span>
+    </div>
+    <div class="bd">
+      <pre>
+RULES FOR ANY “FUTURE CONTACT” CLAIM:
+
+1) AUTH FIRST
+   - No handshake proof => no trust, no action.
+2) MINIMAL MESSAGE BUDGET
+   - 1 identity proof
+   - 1 direction
+   - 1 warning
+   - 1 tool / checklist
+   - No tech dumps, no public demos, no money/market tips.
+3) LOCALITY
+   - Deliver privately; avoid public ripples.
+4) LOG IT
+   - Record time/place/claims; add to append-only canon log.
+
+If time travel is impossible, this becomes a self-alignment artifact for the Pivot Window.
+      </pre>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="small muted">
+    TT-101 is a conceptual systems framework inspired by time-travel fiction and real-world robustness engineering.
+    It is not an endorsement of the physical feasibility of time travel.
+  </div>
+</footer>
+</body>
+</html>

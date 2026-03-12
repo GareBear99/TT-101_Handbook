@@ -1,0 +1,14 @@
+TT-101 Release Statement
+========================
+
+VERSION: v1.0.0
+TIMESTAMP_UTC: 2026-03-02T10:59:05.827984Z
+MANIFEST_SHA256: <FILL_AFTER_BUILD>
+
+SUMMARY:
+- Canon baseline release
+- Includes optical slate tier + ops hardening + self-sufficiency doctrine
+- Verify with: make validate
+
+SIGNATURES:
+- (attach .asc signature files alongside this statement)

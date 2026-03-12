@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <defs>
+    <style>
+      .t{font:16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;}
+      .s{stroke:#111;stroke-width:2;fill:none}
+      .b{fill:#fff;stroke:#111;stroke-width:2}
+      .f{fill:#111}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="24" y="24" width="912" height="312" rx="18" class="b"/>
+  <text x="48" y="58" class="t f">ICS Loop (Iterative Counterjump Steering)</text>
+  <rect x="90" y="120" width="170" height="70" rx="14" class="b"/><text x="115" y="160" class="t">Observe State</text>
+  <rect x="300" y="120" width="170" height="70" rx="14" class="b"/><text x="315" y="160" class="t">Authenticate</text>
+  <rect x="510" y="120" width="170" height="70" rx="14" class="b"/><text x="530" y="160" class="t">Apply Delta</text>
+  <rect x="720" y="120" width="170" height="70" rx="14" class="b"/><text x="740" y="160" class="t">Verify / Rollback</text>
+  <path d="M260 155 L300 155" class="s" marker-end="url(#arrow)"/>
+  <path d="M470 155 L510 155" class="s" marker-end="url(#arrow)"/>
+  <path d="M680 155 L720 155" class="s" marker-end="url(#arrow)"/>
+  <path d="M805 190 C 805 270, 175 270, 175 190" class="s" marker-end="url(#arrow)"/>
+  <text x="330" y="98" class="t">Small, bounded steps</text>
+  <text x="330" y="320" class="t">Fail-closed: if verification fails, stop and preserve evidence</text>
+</svg>

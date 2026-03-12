@@ -1,0 +1,39 @@
+{
+  "blocks": {
+    "count": 2,
+    "pattern": "blocks/D{index:03d}.bin"
+  },
+  "chunk_bytes": 64,
+  "compress": "zlib",
+  "generated_utc": "2026-03-05T15:42:12Z",
+  "notes": [
+    "Encode each *.bin as QR in BYTE MODE for maximum density.",
+    "If using text-only QR tools, base64 is possible but larger."
+  ],
+  "parity": {
+    "P0": {
+      "file": "parity/P0.bin"
+    },
+    "PG00": {
+      "file": "parity/PG00.bin",
+      "group": 0
+    },
+    "PG01": {
+      "file": "parity/PG01.bin",
+      "group": 1
+    },
+    "PG02": {
+      "file": "parity/PG02.bin",
+      "group": 2
+    },
+    "PG03": {
+      "file": "parity/PG03.bin",
+      "group": 3
+    }
+  },
+  "parity_groups": 4,
+  "payload_len": 70,
+  "payload_sha256": "35c642cda1ff2a14a2a3aa6e45108dbb0813e4c3a8ed8eaf6f6b8790ba465d94",
+  "schema": "TT-315/QR_SLATE_v1",
+  "source_file": "/mnt/data/tt101_32_work/TT-101 32/artifacts/qr_slate_demo/payload_demo.txt"
+}

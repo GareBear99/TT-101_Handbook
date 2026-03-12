@@ -1,0 +1,6 @@
+TT-101 Canon v1.0 — v1.4 Perfected Technical Edition
+MANIFEST_SHA256: e61c84924fd1464371c7f88cb1c19992ccb7906bf40ddb2a710c84e78e6937f5
+GENERATED_UTC: 2026-03-05T20:37:02.701110+00:00
+
+Validator Status: PASS
+Integrity Status: VERIFIED

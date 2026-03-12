@@ -1,0 +1,11 @@
+%% Timeproof Continuity Protocol Flow
+flowchart TD
+  S[Start] --> P[Pick Pivot Window]
+  P --> M[Define Minimal-Impact Message Budget]
+  M --> H[Define Handshake Protocol]
+  H --> A[Build Distributed Archive Base]
+  A --> B[Register Temporal Beacon (optional)]
+  B --> T[Build Real-World Attractors]
+  T --> X{Future Contact Occurs?}
+  X -->|No| Y[Still benefits: resilience + clarity]
+  X -->|Yes| Z[Authenticate -> Deliver minimal payload -> Log]
