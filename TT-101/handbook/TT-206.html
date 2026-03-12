@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-206 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-206</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-205.html'>← Prev</a>
+        <a class='btn' href='./TT-207.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-206 — Temporal Beacon Protocol</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<p>A **Temporal Beacon** is a *publicly verifiable, low-interference marker* placed in history so that any hypothetical future observer (or continuity agent) can:</p>
+<ul>
+<li>find the same pivot point,</li>
+<li>verify they are reading an untampered artifact,</li>
+<li>and interpret non-response outcomes without assuming proof.</li>
+</ul>
+<div class='sp'></div>
+<p>This is **not** established physics. It is a disciplined **signaling + archive** design that remains useful even if time travel is impossible.</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Why beacons exist</h2>
+<div class='sp'></div>
+<p>The repo already supports:</p>
+<ul>
+<li>pivot window selection,</li>
+<li>minimal message budgeting,</li>
+<li>handshake authentication,</li>
+<li>distributed archiving.</li>
+</ul>
+<div class='sp'></div>
+<p>A beacon adds one missing layer:</p>
+<div class='sp'></div>
+<p>> **“If a future can listen, how will it know where to listen?”**</p>
+<div class='sp'></div>
+<p>A beacon is the answer: *a deliberate, timestamped, integrity-checked “listen here” point.*</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Beacon definition</h2>
+<div class='sp'></div>
+<p>A beacon is a record with:</p>
+<div class='sp'></div>
+<p>1. **Beacon ID** (unique)</p>
+<p>2. **Publish timestamp** (UTC + local time)</p>
+<p>3. **Public location(s)** (GitHub release, mirrored archive, etc.)</p>
+<p>4. **Pivot Window** (what this beacon is about)</p>
+<p>5. **Observation Window** (when a response would be meaningful)</p>
+<p>6. **Listener Contract** (response constraints to reduce harm)</p>
+<p>7. **Non-response interpretation** (what “nothing happened” means)</p>
+<div class='sp'></div>
+<p>Use: **<a href='../templates/Beacon-Entry.md'>templates/Beacon-Entry.md</a>**</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Listener Contract (safety constraints)</h2>
+<div class='sp'></div>
+<p>If a future observer can respond, the safest default is **minimal-impact contact**:</p>
+<div class='sp'></div>
+<ul>
+<li>**No instructions for harm**</li>
+<li>**No coercion / extortion**</li>
+<li>**No “prove it by changing X” demands**</li>
+<li>Prefer **passive verification**:</li>
+<li>a signed checksum of a file already public,</li>
+<li>a subtle, non-disruptive acknowledgement message,</li>
+<li>a reference to a pre-committed token.</li>
+</ul>
+<div class='sp'></div>
+<p>This repo treats contact as **optional** and **non-authoritative**.</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>The “nothing happens” rule (formalized)</h2>
+<div class='sp'></div>
+<p>If no response occurs inside the Observation Window, do **not** conclude anything with certainty.</p>
+<p>Non-response can mean:</p>
+<div class='sp'></div>
+<p>1) No future observer exists with this capability  </p>
+<p>2) They exist but never detected the beacon  </p>
+<p>3) They detected it but chose not to respond (policy, ethics, risk)  </p>
+<p>4) The relevant future branch diverged before the beacon matured  </p>
+<p>5) The capability exists only in branches where this beacon is absent</p>
+<div class='sp'></div>
+<p>Non-response is still useful data for **your own planning**, but it is not proof.</p>
+<div class='sp'></div>
+<p>See: **<a href='timeline_divergence.md'>docs/timeline_divergence.md</a>**</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>“Continuum-style” pivot points (pop-culture framing)</h2>
+<div class='sp'></div>
+<p>Some fiction depicts a beacon as a deliberate “pivotal moment” marker:</p>
+<p>a time/location that future agents can target because it strongly influences downstream timelines.</p>
+<div class='sp'></div>
+<p>In this repo, the analogous concept is:</p>
+<div class='sp'></div>
+<ul>
+<li>**Pivot Window** = the intervention target region  </li>
+<li>**Beacon** = the public marker that says “this pivot matters”  </li>
+<li>**Observer model** = the idea that future analysts might scan for such markers</li>
+</ul>
+<div class='sp'></div>
+<p>See: **<a href='TT-202_Pivot_Window_Model.md'>TT-202 Pivot Window Model</a>** and **<a href='TT-207_Observer_Listening_Model.md'>TT-207 Observer Listening Model</a>**</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Minimal implementation checklist</h2>
+<div class='sp'></div>
+<p>A valid beacon should have:</p>
+<div class='sp'></div>
+<ul>
+<li>[ ] Beacon Entry completed (template)</li>
+<li>[ ] Repo content hashed (manifest updated)</li>
+<li>[ ] At least two mirrors (e.g., release + second host)</li>
+<li>[ ] Clear observation window (years, not days)</li>
+<li>[ ] Safe response channel (no personal data required)</li>
+</ul>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Recommended first beacon</h2>
+<div class='sp'></div>
+<p>If you want a “first beacon,” use:</p>
+<div class='sp'></div>
+<ul>
+<li>Beacon ID: **TB-000**</li>
+<li>Pivot Window: “TT-101 archive published”</li>
+<li>Observation Window: 2026–2036 (or longer)</li>
+<li>Contract: “acknowledgement only, no intervention request”</li>
+</ul>
+<div class='sp'></div>
+<p>Then you can create additional beacons for specific pivots later.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<div class='sp'></div>
+<p>Write a plain-language summary of this segment.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<div class='sp'></div>
+<p>State why this segment exists in the overall continuity notebook.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<div class='sp'></div>
+<p>Explain where this fits in the training → artifact → verification → journal chain.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Verification</h2>
+<div class='sp'></div>
+<ul>
+<li>What would count as “worked” for this segment:</li>
+<li>What artifact/log proves it:</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<div class='sp'></div>
+<ul>
+<li>Date:</li>
+<li>What you did (verifiable):</li>
+<li>Evidence (hash/file/photo):</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<div class='sp'></div>
+<ul>
+<li>Next: <a href='./TT-207_Observer_Listening_Model.md'>TT-207</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-206</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>
