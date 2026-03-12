@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-327 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-327</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-326.html'>← Prev</a>
+        <a class='btn' href='./TT-328.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-327 — Distributed Signing & Verification Policy (v1)</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<p>This tier upgrades canon integrity from “hash-only” to “hash + signatures”.</p>
+<div class='sp'></div>
+<h2>Why</h2>
+<p>Hashes detect corruption.</p>
+<p>Signatures detect impersonation (malicious forks claiming to be official).</p>
+<div class='sp'></div>
+<h2>Minimal Policy (v1)</h2>
+<ul>
+<li>Every release (vX.Y) must publish:</li>
+</ul>
+<p>  1) manifest hash</p>
+<p>  2) signed statement of that hash (by multiple stewards)</p>
+<div class='sp'></div>
+<h2>Signing Artifact</h2>
+<p>Create a file:</p>
+<ul>
+<li>`release/RELEASE_vX.Y.txt` containing:</li>
+<li>version</li>
+<li>UTC timestamp</li>
+<li>SHA-256 of `manifest/hashes.txt`</li>
+<li>short description</li>
+</ul>
+<p>Then sign it using:</p>
+<ul>
+<li>PGP / GPG signatures (preferred)</li>
+<li>or multiple independent signing methods</li>
+</ul>
+<div class='sp'></div>
+<h2>Verification Rule</h2>
+<p>A mirror is “canonical” if:</p>
+<ul>
+<li>`make validate` passes</li>
+<li>manifest hash matches the signed release statement</li>
+<li>at least threshold signatures are present (policy-defined)</li>
+</ul>
+<div class='sp'></div>
+<h2>Threshold Guidance</h2>
+<ul>
+<li>v1: 2-of-N signatures required</li>
+<li>v2+: increase threshold for higher-stakes deployments</li>
+</ul>
+<div class='sp'></div>
+<h2>Offline Verification</h2>
+<p>All verification must be possible without internet:</p>
+<ul>
+<li>printed release statement</li>
+<li>printed public keys / fingerprints</li>
+<li>manual hash verification</li>
+</ul>
+<div class='sp'></div>
+<h2>Note</h2>
+<p>This repo ships policy, not keys.</p>
+<p>Keys are steward-managed and must be distributed physically (paper/etched) in the substrate tier.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<div class='sp'></div>
+<p>Write a plain-language summary of this segment.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<div class='sp'></div>
+<p>State why this segment exists in the overall continuity notebook.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<div class='sp'></div>
+<p>Explain where this fits in the training → artifact → verification → journal chain.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<div class='sp'></div>
+<ul>
+<li>Date:</li>
+<li>What you did (verifiable):</li>
+<li>Evidence (hash/file/photo):</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<div class='sp'></div>
+<ul>
+<li>Next: <a href='./TT-328_Optical_Slate_Certification_Standard.md'>TT-328</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-327</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>
