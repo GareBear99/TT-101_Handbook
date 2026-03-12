@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>TT-990 — Binary Decoder Dictionary (0–255)</title>
+<link href="../assets/book.css" rel="stylesheet"/>
+<!-- CUSTOM_HANDBOOK -->
+<style>
+  .paper-scroll{max-width:980px;margin:0 auto}
+  .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:16px;padding:14px;margin:12px 0}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  input[type="text"], textarea, select{width:100%;max-width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.14);background:rgba(0,0,0,0.30);color:#fff}
+  textarea{min-height:120px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  .btn2{display:inline-block;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.06);color:#fff;text-decoration:none;cursor:pointer}
+  .btn2:hover{background:rgba(255,255,255,0.10)}
+  table{border-collapse:collapse;width:100%}
+  th,td{border-bottom:1px solid rgba(255,255,255,0.10);padding:6px 8px;font-size:13px}
+  th{position:sticky;top:0;background:rgba(10,10,10,0.95);z-index:1}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);font-size:12px}
+</style>
+</head>
+<body>
+<div class="book-shell">
+<aside class="book-nav">
+<div class="kicker">TT-101</div>
+<div class="title">TT-364</div>
+<a class="btn" href="./START_HERE.html">Start Here</a>
+<a class="btn" href="./index.html">All Segments</a>
+<a class="btn" href="./print.html">Print Edition</a>
+<a class="btn" href="../index.html">Main Landing</a>
+<div class="btn-group">
+<div class="btn-title">Paging</div>
+<a class="btn" href="./TT-369.html">Prev</a>
+<a class="btn" href="./TT-999.html">Next</a>
+</div>
+<div class="btn-group">
+<div class="btn-title">DIY Games</div>
+<a class="btn active" href="./TT-364.html">Binary Atlas</a>
+<a class="btn" href="./TT-366.html">Binary Crossword</a>
+<a class="btn" href="./TT-365.html">Continuum Hangman</a>
+</div>
+<div class="btn-group">
+<div class="btn-title">Journal</div>
+<a class="btn" href="./TT-367.html">Archive Journal</a>
+</div>
+</aside>
+<main class="book-main"><h1>TT-990 — Binary Decoder Dictionary (0–255)</h1><p>A compact reference mapping every 8‑bit value (0–255) to decimal, hex, binary, and a safe character label. Use this when decoding QR slate blocks or training with the DIY games.</p><table>
+<thead>
+<tr>
+<th>Dec</th><th>Hex</th><th>Bin</th><th>ASCII</th><th>Latin-1</th><th>Note</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table><p>Tip: Control bytes (0–31, 127) are shown by name. Extended bytes (128–255) follow ISO‑8859‑1 labels where printable.</p></main>
+</div>
+<script>
+(() => {
+  const KEY = "TT_JOURNAL_ENTRIES_V1";
+
+  const CTRL = {
+    0:"NUL",1:"SOH",2:"STX",3:"ETX",4:"EOT",5:"ENQ",6:"ACK",7:"BEL",8:"BS",9:"TAB",10:"LF",11:"VT",12:"FF",13:"CR",14:"SO",15:"SI",
+    16:"DLE",17:"DC1",18:"DC2",19:"DC3",20:"DC4",21:"NAK",22:"SYN",23:"ETB",24:"CAN",25:"EM",26:"SUB",27:"ESC",28:"FS",29:"GS",30:"RS",31:"US",
+    127:"DEL"
+  };
+
+  function pad(n, w){ n=String(n); return n.length>=w?n:"0".repeat(w-n.length)+n; }
+  function b8(n){ return pad(n.toString(2),8); }
+  function hex2(n){ return pad(n.toString(16).toUpperCase(),2); }
+  function safeChar(code){
+    if (CTRL[code]!==undefined) return "["+CTRL[code]+"]";
+    if (code === 32) return "[SPACE]";
+    if (code < 127) return String.fromCharCode(code);
+    return "·"; // keep ASCII column stable for 128+
+  }
+  function latin1Char(code){
+    // ISO-8859-1 mapping (0..255). Control range still shown as names.
+    if (CTRL[code]!==undefined) return "["+CTRL[code]+"]";
+    if (code === 32) return "[SPACE]";
+    return String.fromCharCode(code);
+  }
+  function note(code){
+    if (code<=31 || code===127) return "control";
+    if (code>=128) return "extended";
+    return "";
+  }
+
+  // Build table
+  const tbody = document.getElementById("tbody");
+  const rows = [];
+  for(let i=0;i<256;i++){
+    rows.push({dec:i, hex:hex2(i), bin:b8(i), ascii:safeChar(i), latin:latin1Char(i), note:note(i)});
+  }
+  function renderTable(filter){
+    tbody.innerHTML="";
+    const f = (filter||"").trim();
+    const match = (r)=>{
+      if(!f) return true;
+      const fl=f.toLowerCase();
+      if(String(r.dec)===fl) return true;
+      if(("0x"+r.hex.toLowerCase())===fl || r.hex.toLowerCase()===fl) return true;
+      if(r.bin===fl) return true;
+      if(r.ascii.toLowerCase()===fl || r.latin.toLowerCase()===fl) return true;
+      return (r.note||"").toLowerCase().includes(fl);
+    };
+    rows.filter(match).slice(0,256).forEach(r=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML = `<td class="mono">${r.dec}</td><td class="mono">0x${r.hex}</td><td class="mono">${r.bin}</td><td class="mono">${escapeHtml(r.ascii)}</td><td class="mono">${escapeHtml(r.latin)}</td><td>${r.note}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+  function escapeHtml(s){
+    return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
+  }
+  renderTable("");
+
+  document.getElementById("filter").addEventListener("input",(e)=>renderTable(e.target.value));
+
+  function parseBinaryBits(text){
+    const bits = text.replace(/[^01]/g,"");
+    return bits;
+  }
+  function bitsToNums(bits, group){
+    const nums=[];
+    for(let i=0;i+group<=bits.length;i+=group){
+      const chunk=bits.slice(i,i+group);
+      nums.push(parseInt(chunk,2));
+    }
+    return nums;
+  }
+  function parseHexBytes(text){
+    const hex = text.replace(/[^0-9a-fA-F]/g,"");
+    const nums=[];
+    for(let i=0;i+2<=hex.length;i+=2){
+      nums.push(parseInt(hex.slice(i,i+2),16));
+    }
+    return nums;
+  }
+  function parseTextBytes(text){
+    const nums=[];
+    for(const ch of text){
+      nums.push(ch.codePointAt(0) & 0xFF);
+    }
+    return nums;
+  }
+
+  function decode(){
+    const fmt = document.getElementById("fmt").value;
+    const group = parseInt(document.getElementById("group").value,10);
+    const raw = document.getElementById("inp").value;
+
+    let nums=[];
+    if(fmt==="binary"){
+      const bits=parseBinaryBits(raw);
+      nums=bitsToNums(bits, group);
+    }else if(fmt==="hex"){
+      nums=parseHexBytes(raw);
+      if(group===7 || group===16){
+        // treat as bitstream then regroup if requested
+        const bits=nums.map(b=>b8(b)).join("");
+        nums=bitsToNums(bits, group);
+      }
+    }else{
+      nums=parseTextBytes(raw);
+      if(group===7 || group===16){
+        const bits=nums.map(b=>b8(b)).join("");
+        nums=bitsToNums(bits, group);
+      }
+    }
+
+    document.getElementById("bytes").textContent = nums.map(n=>`0x${hex2(n)} (${n})`).join(", ");
+    // Render as latin-1 for stability
+    const out = nums.map(n=>latin1Char(n)).join("");
+    document.getElementById("out").textContent = out;
+
+    // Pre-fill journal suggestion
+    const preview = nums.slice(0,16).map(n=>`0x${hex2(n)}`).join(" ");
+    document.getElementById("jBody").value =
+`Decoder run:
+- format=${fmt}
+- grouping=${group}-bit
+- sample bytes: ${preview}${nums.length>16?" ...":""}
+- decoded preview: ${out.slice(0,64)}${out.length>64?" ...":""}
+Notes:`;
+  }
+
+  document.getElementById("decodeBtn").addEventListener("click", decode);
+  document.getElementById("clearBtn").addEventListener("click", ()=>{
+    document.getElementById("inp").value="";
+    document.getElementById("bytes").textContent="";
+    document.getElementById("out").textContent="";
+    document.getElementById("jBody").value="";
+  });
+
+  function loadEntries(){
+    try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; }
+  }
+  function saveEntries(entries){
+    localStorage.setItem(KEY, JSON.stringify(entries));
+  }
+  document.getElementById("addJournal").addEventListener("click", ()=>{
+    const title = (document.getElementById("jTitle").value || "").trim();
+    const body = (document.getElementById("jBody").value || "").trim();
+    if(!title || !body){
+      document.getElementById("jStatus").textContent = "Add a title + at least one factual line.";
+      return;
+    }
+    const entries = loadEntries();
+    entries.push({
+      id: "TT-364|" + Date.now(),
+      ts_local: new Date().toISOString(),
+      segment: "TT-364",
+      title,
+      body
+    });
+    saveEntries(entries);
+    document.getElementById("jStatus").textContent = "Saved to journal. Open TT-367 to view token.";
+  });
+
+})();
+</script>
+</body>
+</html>

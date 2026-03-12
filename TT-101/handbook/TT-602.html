@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-602 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-602</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-601.html'>← Prev</a>
+        <a class='btn' href='./TT-603.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-602 — Interplanetary & Interstellar Communications</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>The Real Constraint: Latency</h2>
+<ul>
+<li>Earth↔Mars: minutes (variable)</li>
+<li>Beyond: hours, days, years</li>
+</ul>
+<div class='sp'></div>
+<p>So the architecture must be **delay-tolerant**:</p>
+<ul>
+<li>store-and-forward routing</li>
+<li>offline-first data models</li>
+<li>cryptographic integrity and receipts</li>
+</ul>
+<div class='sp'></div>
+<h2>Recommended Model: DTN + Append-Only Canon</h2>
+<p>Use Delay/Disruption Tolerant Networking (DTN) concepts:</p>
+<ul>
+<li>bundle messages</li>
+<li>relay nodes</li>
+<li>custody transfer</li>
+<li>opportunistic forwarding</li>
+</ul>
+<div class='sp'></div>
+<p>For TT-101:</p>
+<ul>
+<li>updates are **append-only**</li>
+<li>each update is signed and hash-chained</li>
+<li>nodes synchronize when links exist</li>
+</ul>
+<div class='sp'></div>
+<h2>What You Transmit</h2>
+<p>1) Small: manifests, indexes, hashes, “what changed”</p>
+<p>2) Medium: new docs, diagrams, protocols</p>
+<p>3) Large: media datasets (optional)</p>
+<div class='sp'></div>
+<p>Design rule: *The canon must be reconstructable from the small tier.*</p>
+<div class='sp'></div>
+<h2>Authentication</h2>
+<ul>
+<li>per-node keys</li>
+<li>quorum threshold for “canon acceptance” (multi-sig)</li>
+<li>fail-closed: unknown signatures are quarantined</li>
+</ul>
+<div class='sp'></div>
+<h2>Why This Matters Even Without Time Travel</h2>
+<p>This is the same infrastructure required for:</p>
+<ul>
+<li>long-term archives</li>
+<li>resilient civilization comms</li>
+<li>interplanetary governance logs</li>
+</ul>
+<div class='sp'></div>
+<p>Time travel (if it ever exists) would only increase the value of having a validated canon.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<div class='sp'></div>
+<p>Write a plain-language summary of this segment.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<div class='sp'></div>
+<p>State why this segment exists in the overall continuity notebook.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<div class='sp'></div>
+<p>Explain where this fits in the training → artifact → verification → journal chain.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Verification</h2>
+<div class='sp'></div>
+<ul>
+<li>What would count as “worked” for this segment:</li>
+<li>What artifact/log proves it:</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<div class='sp'></div>
+<ul>
+<li>Date:</li>
+<li>What you did (verifiable):</li>
+<li>Evidence (hash/file/photo):</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<div class='sp'></div>
+<ul>
+<li>Next: <a href='./TT-603_MultiPlanet_Deployment.md'>TT-603</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-602</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>
