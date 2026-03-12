@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-317 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-317</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-316.html'>← Prev</a>
+        <a class='btn' href='./TT-318.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-317 — QR Slate Tooling (Pack/Unpack + Verify)</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<p>STATUS: Stable</p>
+<p>VERSION: 1.0</p>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<p>Tooling converts a file into binary chunks (for QR encoding) and reconstructs it back with verification.</p>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<p>Make slate creation and recovery deterministic: same inputs → same outputs, with hashes to prove correctness.</p>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<p>TT-315 defines the binary encoding format. **TT-317 operationalizes it** with repeatable pack/unpack commands.</p>
+<div class='sp'></div>
+<h2>Explanation</h2>
+<h3>Packing</h3>
+<p>Produces:</p>
+<ul>
+<li>`blocks/D000.bin ...`</li>
+<li>optional `parity/P000.bin ...`</li>
+<li>`slate.json` (includes per-block SHA-256 + payload SHA-256)</li>
+<li>optional `journal_entry.json/.txt`</li>
+</ul>
+<div class='sp'></div>
+<h3>Unpacking</h3>
+<p>Consumes `slate.json` + the scanned/decoded blocks and:</p>
+<ul>
+<li>rebuilds missing chunks (if parity allows)</li>
+<li>verifies per-block hashes (optional strict mode)</li>
+<li>verifies payload hash</li>
+<li>decompresses if required</li>
+</ul>
+<div class='sp'></div>
+<h2>Verification</h2>
+<ul>
+<li>Run pack → unpack on the same machine and confirm byte-identical payload.</li>
+<li>Verify `payload_sha256` matches `slate.json`.</li>
+</ul>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<ul>
+<li>Date:</li>
+<li>Input payload filename:</li>
+<li>Output slate directory:</li>
+<li>Payload SHA-256:</li>
+<li>Notes (scanner settings / ECC used / failures observed):</li>
+</ul>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<ul>
+<li>Next: <a href='./TT-318_Bootstrap_Decoder_Slate.md'>TT-318</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-317</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>

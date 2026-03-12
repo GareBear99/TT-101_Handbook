@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-315 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-315</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-314.html'>← Prev</a>
+        <a class='btn' href='./TT-364.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-315 Binary QR Slate Encoding (Smallest-Size Storage)</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<p>**Purpose:** Define a **binary-first** encoding pathway for QR-code “slates” (laser‑etched or printed) where the payload is stored in **raw bytes** for maximum density and minimal file size.</p>
+<div class='sp'></div>
+<p>This segment complements:</p>
+<ul>
+<li>**TT-307–TT-314** (Optical Slate Passive Core + decoding ladder + block formats)</li>
+<li>**TT-312** (Laser workflow / QA)</li>
+<li>**TT-309** (Erosion‑tolerant error correction)</li>
+</ul>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Scope and assumptions</h2>
+<div class='sp'></div>
+<ul>
+<li>QR codes are used as the *optical carrier*.</li>
+<li>The archival payload is treated as **bytes**, not text.</li>
+<li>The system is designed to survive:</li>
+<li>device loss / software loss</li>
+<li>partial slate damage</li>
+<li>imperfect scanning</li>
+<li>This is a **storage + decoding** spec, not proof of time travel.</li>
+</ul>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Design goals</h2>
+<div class='sp'></div>
+<p>1. **Density:** use QR **Byte mode** where possible.</p>
+<p>2. **Determinism:** chunking and reconstruction must be unambiguous.</p>
+<p>3. **Redundancy:** tolerate missing or corrupted QR blocks.</p>
+<p>4. **Decode ladder compatibility:** include a minimal human-readable outer wrapper so future readers can reconstruct tooling.</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>High-level approach</h2>
+<div class='sp'></div>
+<p>A complete “slate payload” is serialized as:</p>
+<div class='sp'></div>
+<p>1) **Envelope bytes** (a small header)</p>
+<p>2) **Payload bytes** (the actual archive segment, compressed or raw)</p>
+<p>3) **Integrity bytes** (hashes / checksums)</p>
+<p>4) Split into **QR blocks** (chunks) with per-block checks</p>
+<div class='sp'></div>
+<h3>Key principle</h3>
+<p>**Binary is the canonical layer**. Any text labels are *only* for decoding guidance.</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Binary envelope format (TTB1)</h2>
+<div class='sp'></div>
+<p>**Magic:** 4 bytes  </p>
+<p>`TTB1` (0x54 0x54 0x42 0x31)</p>
+<div class='sp'></div>
+<p>**Header (fixed):**</p>
+<ul>
+<li>`u8 version` (currently `1`)</li>
+<li>`u8 flags`</li>
+<li>bit0 = payload compressed (zlib/deflate)</li>
+<li>bit1 = payload is a ZIP container</li>
+<li>bit2 = payload is a TAR container</li>
+<li>bit3 = payload is raw single file</li>
+<li>`u16 header_len` (bytes, big-endian) — for forward compatibility</li>
+</ul>
+<div class='sp'></div>
+<p>**Body (variable):**</p>
+<ul>
+<li>`u32 payload_len` (bytes, big-endian)</li>
+<li>`payload_bytes[payload_len]`</li>
+<li>`sha256_payload[32]` (SHA-256 over *payload_bytes* only)</li>
+</ul>
+<div class='sp'></div>
+<p>**Optional (recommended when chunking):**</p>
+<ul>
+<li>`u32 crc32_payload` (CRC32 over payload_bytes)</li>
+</ul>
+<div class='sp'></div>
+<h3>Why SHA-256 + CRC32?</h3>
+<ul>
+<li>CRC32: fast error detection on reconstruction (human debugging / fast reject)</li>
+<li>SHA-256: strong integrity guarantee for final verification</li>
+</ul>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Compression choice</h2>
+<div class='sp'></div>
+<p>If the goal is **smallest size**, enable compression flag (bit0) and compress the payload bytes using **zlib/deflate**.</p>
+<div class='sp'></div>
+<p>**Note:** For deep-time resilience, you may store **both**:</p>
+<ul>
+<li>a compressed payload (density)</li>
+<li>an uncompressed payload (simplicity)</li>
+</ul>
+<p>…on separate slates or separate layers.</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>QR chunking format (Structured Blocks)</h2>
+<div class='sp'></div>
+<p>Because a single QR may be insufficient, split the `TTB1` byte stream into blocks.</p>
+<div class='sp'></div>
+<p>Each QR block encodes:</p>
+<div class='sp'></div>
+<p>**Block header (binary, before block data):**</p>
+<ul>
+<li>`u16 block_index` (0…N-1)</li>
+<li>`u16 block_count` (N)</li>
+<li>`u32 stream_offset` (byte offset into the full TTB1 stream)</li>
+<li>`u16 block_len` (bytes of block_data)</li>
+<li>`u32 crc32_block` (CRC32 over block_data only)</li>
+</ul>
+<div class='sp'></div>
+<p>**Block data:**</p>
+<ul>
+<li>`block_data[block_len]` — slice of the full TTB1 stream</li>
+</ul>
+<div class='sp'></div>
+<h3>Reconstruction algorithm</h3>
+<p>1. Collect blocks</p>
+<p>2. Verify `crc32_block` per block</p>
+<p>3. Sort by `stream_offset`</p>
+<p>4. Concatenate `block_data` to reconstruct full stream</p>
+<p>5. Parse `TTB1`, extract `payload_bytes`</p>
+<p>6. Verify `sha256_payload` (and CRC32 payload if present)</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>QR capacity guidance (practical)</h2>
+<div class='sp'></div>
+<p>Density depends on:</p>
+<ul>
+<li>QR Version (size)</li>
+<li>Error correction level (L/M/Q/H)</li>
+<li>Print/etch quality</li>
+<li>Scanner quality</li>
+</ul>
+<div class='sp'></div>
+<p>**Rule of thumb for etched slates:**</p>
+<ul>
+<li>prefer **lower density** than theoretical maximum</li>
+<li>prefer **Q or H** error correction for damage tolerance</li>
+<li>increase module size (bigger squares) for reliability</li>
+</ul>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Minimal human-readable wrapper (outer label)</h2>
+<div class='sp'></div>
+<p>Every slate should include an outer label (etched text) that explains:</p>
+<div class='sp'></div>
+<ul>
+<li>This is a **Binary QR Slate**</li>
+<li>Expected decoding steps:</li>
+<li>scan all QR blocks</li>
+<li>reconstruct TTB1 stream</li>
+<li>verify SHA-256</li>
+<li>decompress (if flagged)</li>
+<li>A pointer to the decoding ladder document (TT-308 / TT-310)</li>
+</ul>
+<div class='sp'></div>
+<p>Example outer label (suggested):</p>
+<ul>
+<li>`TT-315 / BINARY QR SLATE / FORMAT: TTB1 / BLOCKED / VERIFY SHA-256`</li>
+</ul>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Security and safety (non-negotiable)</h2>
+<div class='sp'></div>
+<ul>
+<li>**Do not execute** decoded payloads.</li>
+<li>Treat decoded files as **data** until inspected.</li>
+<li>Prefer storing:</li>
+<li>plain text</li>
+<li>simple structured files (JSON / CBOR)</li>
+<li>images / diagrams</li>
+<li>source code</li>
+<li>Avoid distributing opaque executables.</li>
+</ul>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Reference: Python decode sketch (illustrative)</h2>
+<div class='sp'></div>
+<p>This is a minimal reconstruction outline (not a full toolchain):</p>
+<div class='sp'></div>
+<pre><code>
+# blocks = list of dicts with fields: idx,count,offset,data,crc32
+# 1) validate crc32 per block
+# 2) sort by offset
+# 3) concatenate data
+# 4) parse TTB1, verify sha256, decompress if flagged
+</code></pre>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<h2>Next recommended additions</h2>
+<div class='sp'></div>
+<ul>
+<li>TT-315A: “QR Block Redundancy (RAID-like parity blocks)”</li>
+<li>TT-315B: “Multi‑format payload (ZIP + plaintext mirror)”</li>
+<li>TT-315C: “Rosetta ‘tooling seed’ slate (minimal decoder implementation)”</li>
+</ul>
+<div class='sp'></div>
+<h2>Related segments (next)</h2>
+<ul>
+<li>**TT-316** QR Slate Redundancy & Parity</li>
+<li>**TT-317** QR Slate Tooling (Pack/Unpack + Verify)</li>
+<li>**TT-318** Bootstrap Decoder Slate</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<div class='sp'></div>
+<p>Write a plain-language summary of this segment.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<div class='sp'></div>
+<p>State why this segment exists in the overall continuity notebook.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<div class='sp'></div>
+<p>Explain where this fits in the training → artifact → verification → journal chain.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Verification</h2>
+<div class='sp'></div>
+<ul>
+<li>What would count as “worked” for this segment:</li>
+<li>What artifact/log proves it:</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<div class='sp'></div>
+<ul>
+<li>Date:</li>
+<li>What you did (verifiable):</li>
+<li>Evidence (hash/file/photo):</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<div class='sp'></div>
+<ul>
+<li>Next: <a href='./TT-364_Binary_Character_Atlas.md'>TT-364</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-315</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>

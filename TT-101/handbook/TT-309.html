@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-309 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-309</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-308.html'>← Prev</a>
+        <a class='btn' href='./TT-310.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-309 — Erosion-Tolerant Error Correction</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<p>Erosion is the deep-time failure mode. Standard QR error correction is good,</p>
+<p>but for slates we design for **chunk loss** and **edge damage**.</p>
+<div class='sp'></div>
+<h2>Multi-Scale Redundancy</h2>
+<ul>
+<li>In-block error correction (within each tile)</li>
+<li>Cross-block parity (RAID-like reconstruction)</li>
+<li>Cross-slate duplication (multiple slates contain overlapping chunks)</li>
+</ul>
+<div class='sp'></div>
+<h2>Practical Guidance</h2>
+<ul>
+<li>Prefer lower density modules (larger squares) to survive abrasion</li>
+<li>Use thick borders and alignment markers</li>
+<li>Encode block IDs + hashes in multiple positions</li>
+</ul>
+<div class='sp'></div>
+<h2>Verification</h2>
+<p>Each block contains:</p>
+<ul>
+<li>Block ID</li>
+<li>Payload length</li>
+<li>SHA-256 hash (or simpler checksum ladder also shown)</li>
+<li>Parity group ID</li>
+</ul>
+<div class='sp'></div>
+<p>This enables reconstruction even with partial corruption.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<div class='sp'></div>
+<p>Write a plain-language summary of this segment.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<div class='sp'></div>
+<p>State why this segment exists in the overall continuity notebook.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<div class='sp'></div>
+<p>Explain where this fits in the training → artifact → verification → journal chain.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<div class='sp'></div>
+<ul>
+<li>Date:</li>
+<li>What you did (verifiable):</li>
+<li>Evidence (hash/file/photo):</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<div class='sp'></div>
+<ul>
+<li>Next: <a href='./TT-310_Slate_RAID_Block_Format.md'>TT-310</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-309</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>

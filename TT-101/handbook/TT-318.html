@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-318 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-318</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-317.html'>← Prev</a>
+        <a class='btn' href='./TT-401.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-318 — Bootstrap Decoder Slate (Self-Contained Recovery)</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<p>STATUS: Draft</p>
+<p>VERSION: 0.9</p>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<p>A minimal “decoder-on-slate” specification so recovery is possible even if modern tools disappear.</p>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<p>Ensure the archive remains decodable with only:</p>
+<ul>
+<li>the etched QR blocks</li>
+<li>basic computation (or manual transcription)</li>
+<li>this bootstrap spec</li>
+</ul>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<p>TT-315/316/317 define the artifact + redundancy + tooling. **TT-318 ensures survivability across software collapse**.</p>
+<div class='sp'></div>
+<h2>Explanation</h2>
+<h3>Minimum decode recipe (language-agnostic)</h3>
+<p>1) Read `slate.json` (or its printed equivalent): chunk size, ordering, compression flag, payload hash.</p>
+<p>2) Decode QR blocks to bytes (byte-mode).</p>
+<p>3) Order blocks by index: D000..DNNN.</p>
+<p>4) If parity exists and one block missing per group: reconstruct with XOR.</p>
+<p>5) Concatenate blocks → compressed stream (optional).</p>
+<p>6) If compressed: inflate (zlib).</p>
+<p>7) SHA-256 verify payload.</p>
+<div class='sp'></div>
+<h3>What must be etched/printed alongside</h3>
+<ul>
+<li>Chunk size</li>
+<li>Compression flag</li>
+<li>Payload SHA-256</li>
+<li>Block count</li>
+<li>Parity scheme summary</li>
+</ul>
+<div class='sp'></div>
+<h2>Verification</h2>
+<ul>
+<li>Perform a recovery using only `slate.json` + blocks (no external metadata).</li>
+<li>Confirm SHA-256 match.</li>
+</ul>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<ul>
+<li>Date:</li>
+<li>Bootstrap fields etched:</li>
+<li>Recovery rehearsal performed:</li>
+<li>Evidence:</li>
+</ul>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<ul>
+<li>Next: <a href='./TT-364_Binary_Character_Atlas.md'>TT-364</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-318</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>

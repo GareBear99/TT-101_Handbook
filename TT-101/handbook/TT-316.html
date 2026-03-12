@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-316 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-316</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-370.html'>← Prev</a>
+        <a class='btn' href='./TT-317.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-316 — QR Slate Redundancy & Parity (Missing-Chunk Survival)</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<p>STATUS: Stable</p>
+<p>VERSION: 1.0</p>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<p>If some QR blocks are lost/damaged, parity blocks let you reconstruct missing data chunks.</p>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<p>Increase recoverability of etched/slate QR archives under erosion, loss, and scanning failure.</p>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<p>Training (TT-364/366/365) → Artifact generation (TT-315) → **Redundancy (TT-316)** → Tooling (TT-317) → Verification (TT-369) → Journal (TT-367) → Token (TT-368).</p>
+<div class='sp'></div>
+<h2>Explanation</h2>
+<h3>Redundancy strategies</h3>
+<ul>
+<li>**Group XOR parity**: for each group of N data blocks, store 1 parity block = XOR of all bytes.</li>
+<li>**Global parity**: optional additional parity across all blocks (weak, but cheap).</li>
+</ul>
+<div class='sp'></div>
+<h3>What XOR parity can recover</h3>
+<ul>
+<li>Recovers **exactly one missing block per parity group** (if others present).</li>
+<li>If 2+ blocks in a group are missing, XOR parity alone cannot fully recover.</li>
+</ul>
+<div class='sp'></div>
+<h3>Recommended settings</h3>
+<ul>
+<li>Group size: **8–16** data blocks per parity block (balance recovery vs overhead).</li>
+<li>QR ECC: use high ECC when etching small or scanning in harsh conditions.</li>
+</ul>
+<div class='sp'></div>
+<h2>Verification</h2>
+<ul>
+<li>Delete one data block in a group and confirm `qr_slate_unpack.py` reconstructs it using parity.</li>
+<li>Confirm recovered payload SHA-256 matches `slate.json`.</li>
+</ul>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<ul>
+<li>Date:</li>
+<li>Slate ID / directory:</li>
+<li>Chunk bytes:</li>
+<li>Parity groups:</li>
+<li>Recovery test performed:</li>
+<li>Result (pass/fail) + evidence:</li>
+</ul>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<ul>
+<li>Next: <a href='./TT-317_QR_Slate_Tooling.md'>TT-317</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-316</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>

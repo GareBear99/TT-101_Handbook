@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TT-313 — TT-101 Handbook</title>
+<link rel="stylesheet" href="../assets/book.css"/>
+</head><body>
+  <div class="book-shell">
+    <aside class="book-nav">
+      <div class="kicker">TT-101</div>
+      <div class="title">TT-313</div>
+
+      <a class="btn" href="./START_HERE.html">Start Here</a>
+      <a class="btn" href="./index.html">All Segments</a>
+      <a class="btn" href="./print.html">Print Edition</a>
+      <a class="btn" href="../index.html">Main Landing</a>
+
+      <div class="btnrow" aria-label="Pager">
+        <a class='btn' href='./TT-312.html'>← Prev</a>
+        <a class='btn' href='./TT-314.html'>Next →</a>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-size:12px; opacity:.9">Reader Mode</div>
+        <div style="margin-top:6px; font-size:12px; opacity:.85" class="page-num">Scroll (JS-free) · Use Prev/Next</div>
+      </div>
+    </aside>
+
+    <main class="paper-scroll">
+      <article class="paper-body dropcap">
+        <h1>TT-313 — Optical Slate Block Specification (v1)</h1>
+<div class='sp'></div>
+<p>> “Knowledge preserved is civilization extended.”</p>
+<p>> — Unknown Archivist</p>
+<div class='sp'></div>
+<p>---</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<p>This document defines a **testable, etchable** QR-like optical block format for the TT-307 Passive Core.</p>
+<div class='sp'></div>
+<p>This is NOT “standard QR.” It is a **self-describing grid** designed for:</p>
+<ul>
+<li>deep engraving</li>
+<li>erosion tolerance</li>
+<li>reconstruction with minimal tools</li>
+</ul>
+<div class='sp'></div>
+<h2>1) Design Targets</h2>
+<ul>
+<li>Readable with: **naked eye + magnifier**</li>
+<li>Decodable with: **hand transcription** (worst case)</li>
+<li>Verifiable with: **checksum/hash**</li>
+<li>Reconstructable with: **parity blocks** (Slate RAID; TT-310)</li>
+</ul>
+<div class='sp'></div>
+<h2>2) Coordinate System</h2>
+<ul>
+<li>A block is an `N × N` module grid.</li>
+<li>Modules are indexed `(r, c)` with `r=0..N-1`, `c=0..N-1`.</li>
+<li>`(0,0)` is top-left.</li>
+</ul>
+<div class='sp'></div>
+<h2>3) Mandatory Visual Structures</h2>
+<h3>3.1 Border Frame</h3>
+<ul>
+<li>Outer frame is a **thick border** (2 modules wide recommended).</li>
+<li>Purpose: preserve alignment under edge damage.</li>
+</ul>
+<div class='sp'></div>
+<h3>3.2 Finder Patterns</h3>
+<ul>
+<li>Three corner finders (TL/TR/BL), each `7×7` modules:</li>
+<li>black ring, white ring, black core (classic-style)</li>
+<li>Purpose: orientation + scale.</li>
+</ul>
+<div class='sp'></div>
+<h3>3.3 Timing Track</h3>
+<ul>
+<li>A 1-module alternating track between TL→TR and TL→BL.</li>
+<li>Purpose: recover module pitch under distortion.</li>
+</ul>
+<div class='sp'></div>
+<h2>4) Data Region</h2>
+<p>After reserving:</p>
+<ul>
+<li>border</li>
+<li>finders</li>
+<li>timing track</li>
+<li>metadata strip (see below)</li>
+</ul>
+<div class='sp'></div>
+<p>Remaining modules are filled row-major with payload bits.</p>
+<div class='sp'></div>
+<h2>5) Metadata Strip (Human + Encoded)</h2>
+<p>A reserved strip (e.g., bottom 3 module rows rendered as larger engraved text nearby) must include:</p>
+<div class='sp'></div>
+<p>Human-readable text:</p>
+<ul>
+<li>`FORMAT: TT-SLATE-BLOCK v1`</li>
+<li>`BLOCK_ID: ####`</li>
+<li>`PAYLOAD_BYTES: ####`</li>
+<li>`CHECK: SHA256:<first16hex>` (full hash can be stored on slate pages)</li>
+<li>`PARITY_GROUP: #` (optional)</li>
+</ul>
+<div class='sp'></div>
+<p>Encoded metadata:</p>
+<ul>
+<li>The same fields encoded in payload header bytes.</li>
+</ul>
+<div class='sp'></div>
+<h2>6) Payload Encoding (v1)</h2>
+<ul>
+<li>ASCII/UTF-8 text payload for test artifacts.</li>
+<li>For binary archives: chunked bytes (future v2).</li>
+<li>Bit order: MSB-first per byte.</li>
+</ul>
+<div class='sp'></div>
+<h2>7) Integrity</h2>
+<p>Minimum:</p>
+<ul>
+<li>SHA-256 of payload bytes (store at least first 16 hex chars on the slate face)</li>
+</ul>
+<p>Optional:</p>
+<ul>
+<li>CRC32 for fast manual checking</li>
+</ul>
+<div class='sp'></div>
+<h2>8) Parity (Slate RAID)</h2>
+<p>For a parity group of `k` data blocks:</p>
+<ul>
+<li>One XOR parity block is computed over equal-length payload bytes.</li>
+<li>Missing one block can be reconstructed.</li>
+</ul>
+<div class='sp'></div>
+<h2>9) Density Profiles</h2>
+<ul>
+<li>**LOW**: N=41 (large modules; best for abrasion tolerance)</li>
+<li>**MED**: N=65</li>
+<li>**HIGH**: N=97 (only for protected, stable environments)</li>
+</ul>
+<div class='sp'></div>
+<h2>10) Compliance Rule</h2>
+<p>A TT-SLATE-BLOCK is not “canon-ready” unless:</p>
+<ul>
+<li>TT-308 decoding ladder exists on same slate set</li>
+<li>A human-readable example decode is included (TT-314)</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Concept Summary</h2>
+<div class='sp'></div>
+<p>Write a plain-language summary of this segment.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Purpose</h2>
+<div class='sp'></div>
+<p>State why this segment exists in the overall continuity notebook.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>How This Fits the Continuity Plan</h2>
+<div class='sp'></div>
+<p>Explain where this fits in the training → artifact → verification → journal chain.</p>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Verification</h2>
+<div class='sp'></div>
+<ul>
+<li>What would count as “worked” for this segment:</li>
+<li>What artifact/log proves it:</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Notebook Entry</h2>
+<div class='sp'></div>
+<ul>
+<li>Date:</li>
+<li>What you did (verifiable):</li>
+<li>Evidence (hash/file/photo):</li>
+</ul>
+<div class='sp'></div>
+<div class='sp'></div>
+<h2>Next Segment</h2>
+<div class='sp'></div>
+<ul>
+<li>Next: <a href='./TT-314_Hello_World_Test_Slate_v1.md'>TT-314</a></li>
+</ul>
+      </article>
+      <footer class="paper-footer">
+        <div class="pn">TT-313</div>
+        <div class="pn">Generated: 2026-03-05T20:36:53.363235+00:00</div>
+      </footer>
+    </main>
+  </div>
+</body></html>
